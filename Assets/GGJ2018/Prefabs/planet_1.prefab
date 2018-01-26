@@ -68,6 +68,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4122362005792418}
   - component: {fileID: 114983701581938474}
+  - component: {fileID: 95319206921626106}
   m_Layer: 0
   m_Name: planet_1
   m_TagString: Untagged
@@ -160,6 +161,23 @@ Transform:
   m_Father: {fileID: 4122362005792418}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &95319206921626106
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1808023611224132}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8371560436a924f92ac91ae3f10e8efd, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114983701581938474
 MonoBehaviour:
   m_ObjectHideFlags: 1
