@@ -38,6 +38,7 @@ Temporary Items
 ExportedObj/
 .consulo/
 .vscode/
+.vs/
 *.csproj
 *.unityproj
 *.sln
