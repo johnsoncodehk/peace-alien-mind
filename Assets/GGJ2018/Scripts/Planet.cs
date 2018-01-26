@@ -25,6 +25,8 @@ public class UIControllerInspector : Editor {
 public class Planet : MonoBehaviour {
 
 	public List<GameObject> levelObjects = new List<GameObject>();
+	public Transform holder;
+	public float zPosSize = 0.2f;
 
 	public int level {
 		get { return this.m_Level; }
@@ -43,6 +45,13 @@ public class Planet : MonoBehaviour {
 		this.m_Animator = this.GetComponent<Animator>();
 
 		this.level = Random.Range(0, this.levelObjects.Count);
+	}
+	void Update() {
+		if (this.holder) {
+			Vector3 pos = this.holder.position;
+			pos.z = (pos.z - this.holder.parent.position.z) * zPosSize + this.holder.parent.position.z;
+			this.transform.position = pos;
+		}
 	}
 
 	public void LevelUp() {
