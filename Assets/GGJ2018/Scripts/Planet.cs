@@ -26,7 +26,7 @@ public class Planet : MonoBehaviour {
 
 	public int levelCount = 4;
 	public List<GameObject> levelObjects = new List<GameObject>();
-	public Transform holder;
+	public Transform holder, ball;
 	public float rotationSpeed;
 	public float zPosSize = 0.2f;
 
@@ -55,7 +55,7 @@ public class Planet : MonoBehaviour {
 			pos.z = (pos.z - this.holder.parent.position.z) * zPosSize + this.holder.parent.position.z;
 			this.transform.position = pos;
 		}
-		this.levelObjects[0].transform.Rotate(new Vector3(0, 0, this.rotationSpeed * Time.deltaTime));
+		this.ball.Rotate(new Vector3(0, 0, this.rotationSpeed * Time.deltaTime));
 	}
 
 	public void LevelUp() {
