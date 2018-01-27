@@ -299,7 +299,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd4b61d7784c34ec2bdce87b8604b56d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1294067230}
   p: 0.1
 --- !u!20 &60088955
 Camera:
@@ -1827,7 +1826,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd4b61d7784c34ec2bdce87b8604b56d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1294067230}
   p: 0.1
 --- !u!114 &1049372608 stripped
 MonoBehaviour:
@@ -5607,12 +5605,6 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!114 &1294067230 stripped
-MonoBehaviour:
-  m_PrefabParentObject: {fileID: 114430773524637696, guid: d369b7a15ed9b42509e078aba26244a9,
-    type: 2}
-  m_PrefabInternal: {fileID: 1357004765}
-  m_Script: {fileID: 11500000, guid: 00806a184313d674ea754d094349c4ac, type: 3}
 --- !u!1 &1355535300
 GameObject:
   m_ObjectHideFlags: 0
@@ -5650,6 +5642,7 @@ MonoBehaviour:
   - {fileID: 1596129780}
   - {fileID: 743115559}
   - {fileID: 1049372608}
+  player2: {fileID: 114291204887002922, guid: ebd611c5e32284909a266595646f5e58, type: 2}
 --- !u!4 &1355535302
 Transform:
   m_ObjectHideFlags: 0
