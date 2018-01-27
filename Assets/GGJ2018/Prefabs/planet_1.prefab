@@ -157,13 +157,28 @@ GameObject:
   m_IsActive: 1
 --- !u!1 &1203934770886674
 GameObject:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4777239092753680}
   - component: {fileID: 210004986444245072}
+  m_Layer: 0
+  m_Name: planet1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1221191300552734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4593387707796668}
   m_Layer: 0
   m_Name: ball
   m_TagString: Untagged
@@ -737,7 +752,7 @@ Transform:
   m_LocalPosition: {x: -2.42, y: 3.11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4777239092753680}
+  - {fileID: 4593387707796668}
   - {fileID: 4824438195979678}
   - {fileID: 4704530846042370}
   - {fileID: 4544451160233838}
@@ -1062,6 +1077,20 @@ Transform:
   m_Father: {fileID: 4544451160233838}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4593387707796668
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1221191300552734}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4777239092753680}
+  m_Father: {fileID: 4122362005792418}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4636254580707344
 Transform:
   m_ObjectHideFlags: 1
@@ -1208,7 +1237,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1203934770886674}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1216,7 +1245,7 @@ Transform:
   - {fileID: 4254236884138414}
   - {fileID: 4768151605739998}
   - {fileID: 4965400248844094}
-  m_Father: {fileID: 4122362005792418}
+  m_Father: {fileID: 4593387707796668}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4794882521498362
@@ -1383,6 +1412,7 @@ MonoBehaviour:
   - {fileID: 1202161163104104}
   - {fileID: 1293244980977800}
   holder: {fileID: 0}
+  ball: {fileID: 4593387707796668}
   rotationSpeed: -10
   zPosSize: 0.2
 --- !u!210 &210004986444245072
