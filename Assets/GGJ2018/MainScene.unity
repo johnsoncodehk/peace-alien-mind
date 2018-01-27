@@ -1205,6 +1205,12 @@ Transform:
   m_Father: {fileID: 25625465}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &743115559 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114983701581938474, guid: d0ad6940a86964859b5e27ba9e94f852,
+    type: 2}
+  m_PrefabInternal: {fileID: 1610183568}
+  m_Script: {fileID: 11500000, guid: 784e6446a67fcde468e73a6f93c85ecd, type: 3}
 --- !u!1 &743338179
 GameObject:
   m_ObjectHideFlags: 0
@@ -1648,6 +1654,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1294067230}
   p: 0.1
+--- !u!114 &1049372608 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114762575083986382, guid: df76cfff713834f5cb9d2c12a19a92f9,
+    type: 2}
+  m_PrefabInternal: {fileID: 1571213075}
+  m_Script: {fileID: 11500000, guid: 784e6446a67fcde468e73a6f93c85ecd, type: 3}
 --- !u!1 &1160461420
 GameObject:
   m_ObjectHideFlags: 0
@@ -5458,6 +5470,11 @@ MonoBehaviour:
   planetAxis: {fileID: 85133477}
   mainCamera: {fileID: 965969650}
   postProcessing: {fileID: 11400000, guid: 19f9c0a9ef4c240cd8759b6af45ef65f, type: 2}
+  planets:
+  - {fileID: 1989282597}
+  - {fileID: 1596129780}
+  - {fileID: 743115559}
+  - {fileID: 1049372608}
 --- !u!4 &1355535302
 Transform:
   m_ObjectHideFlags: 0
@@ -5873,6 +5890,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: df76cfff713834f5cb9d2c12a19a92f9, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &1596129780 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114311030352824376, guid: b03e6f5b198e741bf8cc845ddb3f9353,
+    type: 2}
+  m_PrefabInternal: {fileID: 949641906}
+  m_Script: {fileID: 11500000, guid: 784e6446a67fcde468e73a6f93c85ecd, type: 3}
 --- !u!1001 &1610183568
 Prefab:
   m_ObjectHideFlags: 0
@@ -6086,6 +6109,12 @@ Transform:
   m_PrefabParentObject: {fileID: 4364090062933212, guid: 74632ab58f9524fe8bb58847f6941ea8,
     type: 2}
   m_PrefabInternal: {fileID: 55123710}
+--- !u!114 &1989282597 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114205455364962298, guid: 74632ab58f9524fe8bb58847f6941ea8,
+    type: 2}
+  m_PrefabInternal: {fileID: 55123710}
+  m_Script: {fileID: 11500000, guid: 784e6446a67fcde468e73a6f93c85ecd, type: 3}
 --- !u!1 &2043837053
 GameObject:
   m_ObjectHideFlags: 0
