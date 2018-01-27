@@ -110,4 +110,9 @@ public class Planet : MonoBehaviour {
 
 		oldObj.gameObject.SetActive(false);
 	}
+	private void OnRandomSpeed() {
+		if (Random.value > 0.5f) {
+			this.rotationSpeed *= -1;
+		}
+	}
 }
