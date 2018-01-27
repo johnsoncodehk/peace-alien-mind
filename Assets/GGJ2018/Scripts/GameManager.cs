@@ -22,12 +22,10 @@ public class GameManager : MonoBehaviour {
 	public PlanetAxis planetAxis;
 	public Camera mainCamera;
 	public PostProcessingProfile postProcessing;
-	
-	private Planet[] planets = new Planet[0];
+	public Planet[] planets = new Planet[0];
 
 	void Awake() {
 		GameManager.instance = this;
-		this.planets = FindObjectsOfType<Planet>();
 
 		StartCoroutine(this.CameraZoon());
 	}
