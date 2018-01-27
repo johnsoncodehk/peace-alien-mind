@@ -610,7 +610,7 @@ GameObject:
   - component: {fileID: 4122362005792418}
   - component: {fileID: 114983701581938474}
   - component: {fileID: 95319206921626106}
-  - component: {fileID: 58360465766460212}
+  - component: {fileID: 58303838494411444}
   m_Layer: 0
   m_Name: planet_1
   m_TagString: Untagged
@@ -1329,7 +1329,7 @@ Transform:
   m_Father: {fileID: 4777239092753680}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!58 &58360465766460212
+--- !u!58 &58303838494411444
 CircleCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1343,7 +1343,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 6
 --- !u!95 &95319206921626106
 Animator:
   serializedVersion: 3

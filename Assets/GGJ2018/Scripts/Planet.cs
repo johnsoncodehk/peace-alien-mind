@@ -59,7 +59,7 @@ public class Planet : MonoBehaviour {
 	}
 
 	public void LevelUp() {
-		this.m_Animator.Play("planet_level_up", 0, 0);
+		this.m_Animator.Play("planet_level_up", 1, 0);
 		int oldLevel = this.level;
 		this.level++;
 		if (oldLevel != this.level) {
@@ -70,7 +70,7 @@ public class Planet : MonoBehaviour {
 		}
 	}
 	public void LevelDown() {
-		this.m_Animator.Play("planet_level_down", 0, 0);
+		this.m_Animator.Play("planet_level_down", 1, 0);
 		int oldLevel = this.level;
 		this.level--;
 		if (oldLevel != this.level) {
