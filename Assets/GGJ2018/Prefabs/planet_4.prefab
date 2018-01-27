@@ -383,7 +383,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1342987419473430}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 26.3, y: -21.7, z: 0}
+  m_LocalPosition: {x: 37.7, y: -15.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4420947318927204}
@@ -534,7 +534,7 @@ MonoBehaviour:
   - {fileID: 1039257421202518}
   holder: {fileID: 0}
   ball: {fileID: 4420947318927204}
-  rotationSpeed: -10
+  rotationSpeed: 10
   zPosSize: 0.2
   saveSignal: 0
 --- !u!114 &114775133977273818
@@ -549,7 +549,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   signal: {fileID: 114778470561289208, guid: 00e6c4107f19d46b69d2bae5d1fe20e3, type: 2}
-  shootDelay: {x: 2, y: 4}
+  shootDelay: {x: 2, y: 3}
   shootPosition: {x: 0, y: 5}
 --- !u!210 &210039489343118750
 SortingGroup:
