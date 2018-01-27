@@ -125,14 +125,17 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  startSize: {x: 0.05, y: 0.05, z: 1}
-  endSize: {x: 0.3, y: 0.3, z: 2}
-  startColor: {r: 1, g: 1, b: 1, a: 1}
-  endColor: {r: 1, g: 1, b: 1, a: 0}
-  lifeTime: 8
+  startSize: {x: 0.15, y: 0.15, z: 1}
+  endSize: {x: 0.4, y: 0.4, z: 2}
+  startColor: {r: 0.19607845, g: 0.79215693, b: 0.8117648, a: 1}
+  endColor: {r: 0.18039216, g: 0.79215693, b: 0.80392164, a: 0}
+  lifeTime: 4
   isFirst: 0
   isLast: 0
-  speed: 4
+  speed: 16
+  smoothTime: 0.2
+  maxSpeed: 10
+  deltaTime: 0.1
   child: {fileID: 0}
   player: {fileID: 0}
 --- !u!212 &212540017796453110
