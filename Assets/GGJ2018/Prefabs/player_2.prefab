@@ -758,7 +758,7 @@ MonoBehaviour:
   smoothTime: 1
   maxSpeed: 5
   deltaTime: 0.1
-  signal: {fileID: 114932763483340640, guid: 28562a90efa6b46638f63c939ef56812, type: 2}
+  signal: {fileID: 114803682840499594, guid: e1cdb472f3058418a9a1e19b5deaa28b, type: 2}
   shooter: {fileID: 4358847507561860}
   attractPoint: {fileID: 4960013290963752}
   isNewPlayer: 0
