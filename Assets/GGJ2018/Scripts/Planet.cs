@@ -42,7 +42,7 @@ public class Planet : MonoBehaviour {
 	void Awake() {
 		this.m_Animator = this.GetComponent<Animator>();
 
-		this.level = Random.Range(0, this.levelObjects.Count);
+		this.level = this.levelCount - 1;
 		for (int i = 0; i < this.levelObjects.Count; i++) {
 			var levelObj = this.levelObjects[i];
 			for (int j = 0; j < levelObj.transform.childCount; j++) {
