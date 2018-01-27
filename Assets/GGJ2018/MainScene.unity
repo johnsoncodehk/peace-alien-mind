@@ -281,7 +281,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 60088951}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2136770295}
@@ -1493,6 +1493,53 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b03e6f5b198e741bf8cc845ddb3f9353, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &964467570
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 964467571}
+  - component: {fileID: 964467572}
+  m_Layer: 0
+  m_Name: moteors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &964467571
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 964467570}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -117.8, y: -0.1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &964467572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 964467570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 687600653ad9f4de9a30d2fd44c20c0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSpeed: {x: 4, y: 2}
+  maxSpeed: {x: 6, y: 0}
+  randomTime: {x: 4, y: 8}
+  nextShootTime: 0
+  meteors:
+  - {fileID: 114497474682099520, guid: 644bea3f7c11849a595813017a4986c2, type: 2}
+  - {fileID: 114100815524694266, guid: b93992e0b5e224d16b9d90d9645111a2, type: 2}
 --- !u!1 &965969647
 GameObject:
   m_ObjectHideFlags: 0
@@ -2072,7 +2119,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 363666231
+  randomSeed: 548468893
   InitialModule:
     serializedVersion: 3
     enabled: 1
