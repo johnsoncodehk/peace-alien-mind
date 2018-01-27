@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 58011153817206100}
   m_Layer: 0
   m_Name: player
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,7 +165,7 @@ MonoBehaviour:
   smoothTime: 1
   maxSpeed: 5
   deltaTime: 0.1
-  collider: {fileID: 0}
+  signal: {fileID: 114932763483340640, guid: 28562a90efa6b46638f63c939ef56812, type: 2}
 --- !u!212 &212982917512129950
 SpriteRenderer:
   m_ObjectHideFlags: 1

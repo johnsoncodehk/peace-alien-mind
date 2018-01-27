@@ -29,6 +29,7 @@ public class Planet : MonoBehaviour {
 	public Transform holder, ball;
 	public float rotationSpeed;
 	public float zPosSize = 0.2f;
+	public int saveSignal;
 
 	public int level {
 		get { return this.m_Level; }
@@ -61,7 +62,7 @@ public class Planet : MonoBehaviour {
 	public void LevelUp() {
 		this.m_Animator.Play("planet_level_up", 1, 0);
 		int oldLevel = this.level;
-		this.level++;
+		this.level--;
 		if (oldLevel != this.level) {
 			for (int i = 0; i < this.levelObjects.Count; i++) {
 				var levelObj = this.levelObjects[i];
@@ -72,7 +73,7 @@ public class Planet : MonoBehaviour {
 	public void LevelDown() {
 		this.m_Animator.Play("planet_level_down", 1, 0);
 		int oldLevel = this.level;
-		this.level--;
+		this.level++;
 		if (oldLevel != this.level) {
 			for (int i = 0; i < this.levelObjects.Count; i++) {
 				var levelObj = this.levelObjects[i];
