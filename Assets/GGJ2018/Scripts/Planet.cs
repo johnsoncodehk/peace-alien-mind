@@ -35,9 +35,13 @@ public class Planet : MonoBehaviour {
 		get { return this.m_Level; }
 		set { this.m_Level = Mathf.Clamp(value, 0, this.levelCount - 1); }
 	}
+	public bool isWin {
+		get { return this.m_Level == 0; }
+	}
 
 	private int m_Level;
 	private Animator m_Animator;
+	private Vector3 v;
 
 	void Awake() {
 		this.m_Animator = this.GetComponent<Animator>();
@@ -54,7 +58,7 @@ public class Planet : MonoBehaviour {
 		if (this.holder) {
 			Vector3 pos = this.holder.position;
 			pos.z = (pos.z - this.holder.parent.position.z) * zPosSize + this.holder.parent.position.z;
-			this.transform.position = pos;
+			this.transform.position = Vector3.SmoothDamp(this.transform.position, pos, ref this.v, 5, 20f);
 		}
 		this.ball.Rotate(new Vector3(0, 0, this.rotationSpeed * Time.deltaTime));
 	}
