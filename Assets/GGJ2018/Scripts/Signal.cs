@@ -10,6 +10,9 @@ public class Signal : MonoBehaviour {
 	public float lifeTime;
 	public bool isFirst, isLast;
 	public float speed = 1;
+	
+	public float smoothTime = 0.2f, maxSpeed = 10, deltaTime = 0.1f;
+
 	[HideInInspector] public Signal child;
 	[HideInInspector] public Player player;
 
@@ -18,6 +21,7 @@ public class Signal : MonoBehaviour {
 	private Rigidbody2D m_Rigidbody;
 	private Collider2D m_Collider;
 	private Vector2 m_GoSpeed;
+	private int m_State; // 1 = do not think
 	
 	void Awake() {
 		this.m_StartTime = Time.time;
@@ -28,14 +32,16 @@ public class Signal : MonoBehaviour {
 		this.transform.localScale = Vector3.zero;
 	}
 	void Update() {
+		if (this.m_State == 1) {
+			return;
+		}
 		if (this.player) {
-			this.transform.position = Vector2.SmoothDamp(this.transform.position, this.player.transform.position, ref this.m_GoSpeed, 0.3f, 100, 0.1f);
-			if (Vector2.Distance(this.transform.position, this.player.transform.position) < 0.5f) {
-				Destroy(this.gameObject);
-				if (this.isLast) {
-					this.player.StartCoroutine(this.player.Shoot());
-				}
+			this.transform.position = Vector2.SmoothDamp(this.transform.position, this.player.attractPoint.transform.position, ref this.m_GoSpeed, this.smoothTime, this.maxSpeed, this.deltaTime);
+			if (this.isLast) {
+				this.player.StartCoroutine(this.player.Shoot());
 			}
+			StartCoroutine(this.StartSmall());
+			this.m_State = 1;
 		}
 		else {
 			float currentTime = Time.time - this.m_StartTime;
@@ -70,5 +76,12 @@ public class Signal : MonoBehaviour {
 		if (this.child) {
 			this.child.ToPlayer(player);
 		}
+	}
+	private IEnumerator StartSmall() {
+		while (this.transform.localScale.x > 0.1f) {
+			this.transform.localScale -= Vector3.one * Time.deltaTime * 0.5f;
+			yield return new WaitForEndOfFrame();
+		}
+		Destroy(this.gameObject);
 	}
 }

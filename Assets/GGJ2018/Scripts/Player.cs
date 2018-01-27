@@ -8,6 +8,7 @@ public class Player : MonoBehaviour {
 	public float maxSpeed;
 	public float deltaTime;
 	public Signal signal;
+	public Transform shooter, attractPoint;
 
 	private Vector2 m_MoveVelocity;
 	
@@ -29,13 +30,18 @@ public class Player : MonoBehaviour {
 	}
 
 	public IEnumerator Shoot() {
-		Vector3 shootPos = this.transform.position;
-		Quaternion shootRotation = this.transform.rotation;
+		yield return new WaitForSeconds(0.2f);
+
+		Vector3 shootPos = this.shooter.position;
+		Quaternion shootRotation = this.shooter.rotation;
+		Vector3 shooterAngle = shootRotation.eulerAngles;
+		shooterAngle.z += 90;
+		shootRotation.eulerAngles = shooterAngle;
 
 		var signal1 = Instantiate(this.signal, shootPos, shootRotation);
-		yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSeconds(0.05f);
 		var signal2 = Instantiate(this.signal, shootPos, shootRotation);
-		yield return new WaitForSeconds(0.1f);
+		yield return new WaitForSeconds(0.05f);
 		var signal3 = Instantiate(this.signal, shootPos, shootRotation);
 
 		signal1.child = signal2;
