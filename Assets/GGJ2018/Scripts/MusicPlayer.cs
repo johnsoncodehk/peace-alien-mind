@@ -40,13 +40,8 @@ public class MusicPlayer : MonoBehaviour
 			return;
 		}
 		currentIndex = index;
-
-        print("index=  " + index + "  musicArray[index]  " + musicArray[index]);
-        sound[musicArray[index]].Play();
-        sound[musicArray2[index]].Play();
-        if (index >= musicArray.Length)
-		{
-			index = 0;
-		}
+        print("index=  " + index + "  musicArray[index]  " + musicArray[index % sound.Length]);
+        sound[musicArray[index % sound.Length]].Play();
+        sound[musicArray2[index % sound.Length]].Play();
 	}
 }

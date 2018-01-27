@@ -45,6 +45,7 @@ public class Planet : MonoBehaviour {
 
 	void Awake() {
 		this.m_Animator = this.GetComponent<Animator>();
+		this.ball.Rotate(new Vector3(0, 0, Random.Range(0, 360)));
 
 		this.level = this.levelCount - 1;
 		for (int i = 0; i < this.levelObjects.Count; i++) {
