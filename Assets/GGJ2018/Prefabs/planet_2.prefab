@@ -480,7 +480,7 @@ MonoBehaviour:
   - {fileID: 1378865852158164}
   holder: {fileID: 0}
   ball: {fileID: 4782055174104686}
-  rotationSpeed: 100
+  rotationSpeed: 30
   zPosSize: 0.2
   saveSignal: 0
 --- !u!114 &114282870871765104

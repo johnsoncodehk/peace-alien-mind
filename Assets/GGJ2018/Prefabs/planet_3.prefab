@@ -570,7 +570,7 @@ Animator:
   m_GameObject: {fileID: 1286330475873732}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 6b0e23b1c932e4f05ae61d04edadb9fb, type: 2}
+  m_Controller: {fileID: 9100000, guid: ea079af9876b34a198a6bb8bf5fffd17, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -626,7 +626,7 @@ MonoBehaviour:
   - {fileID: 1658236936479884}
   holder: {fileID: 0}
   ball: {fileID: 4898394200187802}
-  rotationSpeed: -10
+  rotationSpeed: 100
   zPosSize: 0.2
   saveSignal: 0
 --- !u!210 &210450175194699916
