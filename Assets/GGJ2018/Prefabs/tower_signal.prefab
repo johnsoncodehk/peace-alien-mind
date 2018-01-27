@@ -129,7 +129,7 @@ MonoBehaviour:
   endSize: {x: 0.3, y: 0.3, z: 2}
   startColor: {r: 1, g: 1, b: 1, a: 1}
   endColor: {r: 1, g: 1, b: 1, a: 0}
-  lifeTime: 8
+  lifeTime: 4
   isFirst: 0
   isLast: 0
   speed: 4

@@ -766,7 +766,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1808023611224132}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.42, y: 3.11, z: 0}
+  m_LocalPosition: {x: -23.5, y: 13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4593387707796668}
@@ -1433,7 +1433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   signal: {fileID: 114778470561289208, guid: 00e6c4107f19d46b69d2bae5d1fe20e3, type: 2}
-  shootDelay: {x: 10, y: 20}
+  shootDelay: {x: 2, y: 4}
   shootPosition: {x: 0, y: 5}
 --- !u!114 &114983701581938474
 MonoBehaviour:

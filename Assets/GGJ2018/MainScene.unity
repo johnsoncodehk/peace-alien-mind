@@ -152,6 +152,16 @@ Prefab:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114282870871765104, guid: 74632ab58f9524fe8bb58847f6941ea8,
+        type: 2}
+      propertyPath: shootDelay.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114282870871765104, guid: 74632ab58f9524fe8bb58847f6941ea8,
+        type: 2}
+      propertyPath: shootDelay.y
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 74632ab58f9524fe8bb58847f6941ea8, type: 2}
   m_IsPrefabParent: 0
@@ -197,6 +207,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1294067230}
+  p: 0.1
 --- !u!20 &60088955
 Camera:
   m_ObjectHideFlags: 0
@@ -515,6 +526,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1294067230}
+  p: 0.1
 --- !u!1001 &1215424431
 Prefab:
   m_ObjectHideFlags: 0
@@ -4045,6 +4057,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   state: 0
   planetAxis: {fileID: 85133477}
+  mainCamera: {fileID: 965969650}
 --- !u!4 &1355535302
 Transform:
   m_ObjectHideFlags: 0
@@ -4158,10 +4171,6 @@ Prefab:
     - target: {fileID: 4122362005792418, guid: d0ad6940a86964859b5e27ba9e94f852, type: 2}
       propertyPath: m_RootOrder
       value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1808023611224132, guid: d0ad6940a86964859b5e27ba9e94f852, type: 2}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d0ad6940a86964859b5e27ba9e94f852, type: 2}

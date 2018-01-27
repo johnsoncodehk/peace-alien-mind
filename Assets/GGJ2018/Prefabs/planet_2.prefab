@@ -495,7 +495,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   signal: {fileID: 114778470561289208, guid: 00e6c4107f19d46b69d2bae5d1fe20e3, type: 2}
-  shootDelay: {x: 10, y: 20}
+  shootDelay: {x: 2, y: 4}
   shootPosition: {x: 0, y: 5}
 --- !u!210 &210060232527126728
 SortingGroup:
