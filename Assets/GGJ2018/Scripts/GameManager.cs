@@ -24,11 +24,12 @@ public class GameManager : MonoBehaviour {
 	public PostProcessingProfile postProcessing;
 	public Planet[] planets = new Planet[0];
 	public Player player2;
+	public CanvasGroup logo;
 
 	void Awake() {
 		GameManager.instance = this;
 
-		StartCoroutine(this.CameraZoon());
+		StartCoroutine(this.LogoAction());
 	}
 	void Update() {
 		if (this.state == 0) {
@@ -45,6 +46,16 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	private IEnumerator LogoAction() {
+		Player.instances[0].enabled = false;
+		yield return new WaitForSeconds(4);
+		Player.instances[0].enabled = true;
+		StartCoroutine(this.CameraZoon());
+		while (this.logo.alpha > 0) {
+			this.logo.alpha -= 2f * Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+		}
+	}
 	private IEnumerator CameraZoon() {
 		GameManager.instance.mainCamera.orthographicSize = 10;
 		yield return StartCoroutine(this.SetBloom(2, 0.5f, 2));

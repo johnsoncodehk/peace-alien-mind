@@ -20,7 +20,6 @@ public class Signal : MonoBehaviour {
 	private float m_StartTime;
 	private SpriteRenderer m_SpriteRenderer;
 	private Rigidbody2D m_Rigidbody;
-	private Collider2D m_Collider;
 	private Vector2 m_GoSpeed;
 	private int m_State; // 1 = do not think
 	
@@ -28,7 +27,6 @@ public class Signal : MonoBehaviour {
 		this.m_StartTime = Time.time;
 		this.m_SpriteRenderer = this.GetComponent<SpriteRenderer>();
 		this.m_Rigidbody = this.GetComponent<Rigidbody2D>();
-		this.m_Collider = this.GetComponent<Collider2D>();
 
 		this.transform.localScale = Vector3.zero;
 	}
