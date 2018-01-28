@@ -7,6 +7,7 @@ public class Tower : MonoBehaviour {
 	public Signal signal;
 	public Vector2 shootDelay;
 	public Vector2 shootPosition;
+	public Planet fromPlanet;
 
 	private float nextShootTime;
 
@@ -36,6 +37,10 @@ public class Tower : MonoBehaviour {
 
 		signal1.child = signal2;
 		signal2.child = signal3;
+
+		signal1.fromPlanet = this.fromPlanet;
+		signal2.fromPlanet = this.fromPlanet;
+		signal3.fromPlanet = this.fromPlanet;
 
 		signal1.isFirst = true;
 		signal3.isLast = true;

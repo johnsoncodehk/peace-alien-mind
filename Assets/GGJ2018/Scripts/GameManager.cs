@@ -22,12 +22,11 @@ public class GameManager : MonoBehaviour {
 	public PlanetAxis planetAxis;
 	public Camera mainCamera;
 	public PostProcessingProfile postProcessing;
-	
-	private Planet[] planets = new Planet[0];
+	public Planet[] planets = new Planet[0];
+	public Player player2;
 
 	void Awake() {
 		GameManager.instance = this;
-		this.planets = FindObjectsOfType<Planet>();
 
 		StartCoroutine(this.CameraZoon());
 	}
@@ -35,6 +34,13 @@ public class GameManager : MonoBehaviour {
 		if (this.state == 0) {
 			if (this.isWin) {
 				StartCoroutine(this.WinAction());
+			}
+		}
+		if (Input.GetButtonDown("Jump")) {
+			if (Player.instances.Count == 1) {
+				Player newPlayer = Instantiate(this.player2);
+				newPlayer.isNewPlayer = true;
+				newPlayer.transform.position = new Vector3(0, -50, 0);
 			}
 		}
 	}

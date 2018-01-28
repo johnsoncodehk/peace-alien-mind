@@ -7,6 +7,7 @@ public class Signal : MonoBehaviour {
 	public AnimationCurve sizeCurve, colorCurve;
 	public Vector3 startSize, endSize;
 	public Color startColor, endColor;
+	public Planet fromPlanet;
 	public float lifeTime;
 	public bool isFirst, isLast;
 	public float speed = 1;
@@ -38,7 +39,7 @@ public class Signal : MonoBehaviour {
 		if (this.player) {
 			this.transform.position = Vector2.SmoothDamp(this.transform.position, this.player.attractPoint.transform.position, ref this.m_GoSpeed, this.smoothTime, this.maxSpeed, this.deltaTime);
 			if (this.isLast) {
-				this.player.StartCoroutine(this.player.Shoot());
+				this.player.StartCoroutine(this.player.Shoot(this.fromPlanet));
 			}
 			StartCoroutine(this.StartSmall());
 			this.m_State = 1;
@@ -60,7 +61,7 @@ public class Signal : MonoBehaviour {
 			this.ToPlayer(player);
 		}
 		Planet planet = other.GetComponent<Planet>();
-		if (planet) {
+		if (planet && planet != this.fromPlanet) {
 			planet.saveSignal++;
 			if (planet.saveSignal >= 3) {
 				planet.saveSignal = 0;
