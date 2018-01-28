@@ -54,6 +54,10 @@ public class Planet : MonoBehaviour {
 				levelObj.transform.GetChild(j).gameObject.SetActive(j == this.level);
 			}
 		}
+
+		foreach (Tower tower in this.GetComponentsInChildren<Tower>()) {
+			tower.fromPlanet = this;
+		}
 	}
 	void Update() {
 		if (this.holder) {

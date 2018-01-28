@@ -68,7 +68,7 @@ public class Player : MonoBehaviour {
 		this.transform.position = Vector2.SmoothDamp(this.transform.position, targetPosition, ref this.m_MoveVelocity, this.smoothTime, this.maxSpeed, this.deltaTime);
 	}
 
-	public IEnumerator Shoot() {
+	public IEnumerator Shoot(Planet fromPlanet) {
 		yield return new WaitForSeconds(0.2f);
 
 		Vector3 shootPos = this.shooter.position;
@@ -85,5 +85,9 @@ public class Player : MonoBehaviour {
 
 		signal1.child = signal2;
 		signal2.child = signal3;
+
+		signal1.fromPlanet = fromPlanet;
+		signal2.fromPlanet = fromPlanet;
+		signal3.fromPlanet = fromPlanet;
 	}
 }
