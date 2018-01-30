@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeteorShoorer : MonoBehaviour {
+public class MeteorShooter : MonoBehaviour {
 
 	public Vector2 minSpeed, maxSpeed;
 	public Vector2 randomTime;
