@@ -28,7 +28,6 @@ public class MusicPlayer : MonoBehaviour
                                  5, 5, 4,3, 2, 5,6, 5,5, 1 ,1};
     void Start()
 	{
-		AudioSource sound1 = GetComponent<AudioSource>();
 		index = 0;
 	}
 
@@ -40,7 +39,7 @@ public class MusicPlayer : MonoBehaviour
 			return;
 		}
 		currentIndex = index;
-        print("index=  " + index + "  musicArray[index]  " + musicArray[index % musicArray.Length]);
+        // print("index=  " + index + "  musicArray[index]  " + musicArray[index % musicArray.Length]);
         sound[musicArray[index % musicArray.Length]].Play();
         sound[musicArray2[index % musicArray.Length]].Play();
 	}

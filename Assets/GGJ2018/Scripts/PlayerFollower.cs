@@ -8,7 +8,7 @@ public class PlayerFollower : MonoBehaviour {
 	
 	void Update() {
 		Vector3 pos = this.GetPlayersPos();
-		pos *= 0.1f;
+		pos *= this.p;
 		pos.z = this.transform.position.z;
 		this.transform.position = pos;
 	}
