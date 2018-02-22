@@ -327,8 +327,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1541625631136888}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.2, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalPosition: {x: 0, y: 5.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4420947318927204}
   m_RootOrder: 1
@@ -353,8 +353,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1690456594701228}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.2, z: 0}
-  m_LocalScale: {x: 0.19999999, y: 0.19999999, z: 1}
+  m_LocalPosition: {x: 0, y: 5.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4782792141327156}
   m_RootOrder: 0
@@ -450,8 +450,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1350339442489098}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 6.2, z: 0}
-  m_LocalScale: {x: 0.19999999, y: 0.19999999, z: 1}
+  m_LocalPosition: {x: 0, y: 5.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4618283808513538}
   m_RootOrder: 0
@@ -502,8 +502,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1342987419473430}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 37.7, y: -15.9, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4420947318927204}
@@ -650,7 +650,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   signal: {fileID: 114778470561289208, guid: 00e6c4107f19d46b69d2bae5d1fe20e3, type: 2}
   shootDelay: {x: 5, y: 10}
-  shootPosition: {x: 0, y: 5}
+  shootPosition: {x: 0, y: 3}
+  fromPlanet: {fileID: 0}
 --- !u!114 &114311030352824376
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -684,7 +685,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   signal: {fileID: 114778470561289208, guid: 00e6c4107f19d46b69d2bae5d1fe20e3, type: 2}
   shootDelay: {x: 5, y: 10}
-  shootPosition: {x: 0, y: 5}
+  shootPosition: {x: 0, y: 3}
+  fromPlanet: {fileID: 0}
 --- !u!114 &114850743138769512
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -698,7 +700,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   signal: {fileID: 114778470561289208, guid: 00e6c4107f19d46b69d2bae5d1fe20e3, type: 2}
   shootDelay: {x: 5, y: 10}
-  shootPosition: {x: 0, y: 5}
+  shootPosition: {x: 0, y: 3}
+  fromPlanet: {fileID: 0}
 --- !u!210 &210039489343118750
 SortingGroup:
   m_ObjectHideFlags: 1
