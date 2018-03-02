@@ -77,10 +77,6 @@ public class Signal : MonoBehaviour {
 		this.m_StartTime = Time.time;
 	}
 	public static IEnumerator ShootAsync(Signal signal, Vector2 shootPos, Direction direction, Transform createBy, int shootAt) {
-		yield return new WaitForSeconds(0.2f);
-
-		AudioManager.instance.PlaySignal();
-
 		Signal.Create(signal, shootPos, direction, createBy, shootAt);
 		yield return new WaitForSeconds(0.05f);
 		Signal.Create(signal, shootPos, direction, createBy, shootAt);

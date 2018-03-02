@@ -35,6 +35,7 @@ public class Player : MonoBehaviour {
 	}
 	void OnMouseDown() {
 		GameManager.instance.step++;
+		AudioManager.instance.PlaySignal();
 		StartCoroutine(Signal.ShootAsync(this.signal, this.transform.position, Direction.Up, this.transform, GameManager.instance.step));
 	}
 }
