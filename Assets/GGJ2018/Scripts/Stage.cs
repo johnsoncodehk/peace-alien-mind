@@ -60,6 +60,10 @@ public class Stage : MonoBehaviour {
 	private List<Planet> m_Planets = new List<Planet>();
 	private Vector2Int size = new Vector2Int(12, 8);
 
+	void Start() {
+		this.UpdateBoardStyle(GameManager.instance.settingsPanel.boardStyle);
+	}
+
 	public void OnStartGame() {
 		this.m_Planets = this.GetComponentsInChildren<Planet>().ToList();
 	}
@@ -72,5 +76,11 @@ public class Stage : MonoBehaviour {
 	public bool InBorder(Vector2Int pos) {
 		Vector2 sizeF = (Vector2)this.size * 0.5f;
 		return pos.x < sizeF.x && pos.x >= -sizeF.x && pos.y < sizeF.y && pos.y >= -sizeF.y;
+	}
+	public void UpdateBoardStyle(int style) {
+		Grid grid = this.GetComponentInChildren<Grid>();
+		for (int i = 0; i < grid.transform.childCount; i++) {
+			grid.transform.GetChild(i).gameObject.SetActive(i == style);
+		}
 	}
 }

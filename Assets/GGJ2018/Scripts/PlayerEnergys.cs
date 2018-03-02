@@ -42,7 +42,7 @@ public class PlayerEnergys : MonoBehaviour {
 		if (refush) {
 			this.Refush();
 		}
-		this.transform.localScale = Vector3.one * Mathf.SmoothDamp(this.transform.localScale.x, this.show ? 1 : 0, ref this.sizeV, 0.5f);
+		this.transform.localScale = Vector3.one * Mathf.SmoothDamp(this.transform.localScale.x, this.show ? 1 : 0, ref this.sizeV, 0.2f);
 	}
 
 	private void Refush() {
