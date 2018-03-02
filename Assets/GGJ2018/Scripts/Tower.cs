@@ -11,38 +11,17 @@ public class Tower : MonoBehaviour {
 
 	private float nextShootTime;
 
-	void Awake () {
+	void Awake() {
 		this.SetDelay();
 	}
-	
-	void FixedUpdate () {
+	void FixedUpdate() {
 		if (Time.time >= this.nextShootTime) {
 			this.SetDelay();
-			StartCoroutine(this.Shoot());
+			StartCoroutine(Signal.ShootAsync(this.signal, this.shootPosition, Direction.Up, this.transform, GameManager.instance.step));
 		}
 	}
 
 	private void SetDelay() {
 		this.nextShootTime += Random.Range(this.shootDelay.x, this.shootDelay.y);
-	}
-	private IEnumerator Shoot() {
-		Vector3 shootPos = this.transform.TransformPoint(this.shootPosition);
-		Quaternion shootRotation = this.transform.rotation;
-
-		var signal1 = Instantiate(this.signal, shootPos, shootRotation);
-		yield return new WaitForSeconds(0.2f);
-		var signal2 = Instantiate(this.signal, shootPos, shootRotation);
-		yield return new WaitForSeconds(0.2f);
-		var signal3 = Instantiate(this.signal, shootPos, shootRotation);
-
-		signal1.child = signal2;
-		signal2.child = signal3;
-
-		signal1.fromPlanet = this.fromPlanet;
-		signal2.fromPlanet = this.fromPlanet;
-		signal3.fromPlanet = this.fromPlanet;
-
-		signal1.isFirst = true;
-		signal3.isLast = true;
 	}
 }

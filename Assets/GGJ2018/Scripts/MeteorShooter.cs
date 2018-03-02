@@ -40,8 +40,10 @@ public class MeteorShooter : MonoBehaviour {
 	private void ShootOne() {
 		Meteor meteor = this.meteors[Random.Range(0, this.meteors.Count)];
 		Vector2 speed = new Vector2(Random.Range(this.minSpeed.x, this.maxSpeed.x), Random.Range(this.minSpeed.y, this.maxSpeed.y));
-		Meteor newMeteor = Instantiate(meteor);
-		newMeteor.transform.position = this.transform.position;
+		Meteor newMeteor = Instantiate(meteor, this.transform.position, Quaternion.identity);
+		// newMeteor.gameObject.SetActive(false);
+		// newMeteor.transform.position = this.transform.position;
+		// newMeteor.gameObject.SetActive(true);
 		newMeteor.speed = speed;
 	}
 }

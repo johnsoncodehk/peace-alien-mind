@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Cover : MonoBehaviour {
-	
+
 	private CanvasGroup canvasGroup;
 	private Scene mainScene;
 	private AsyncOperation loadMainScene;
@@ -21,14 +21,20 @@ public class Cover : MonoBehaviour {
 		this.loadMainScene.allowSceneActivation = false;
 		yield return this.loadMainScene;
 		SceneManager.SetActiveScene(SceneManager.GetSceneByName("MainScene"));
-	}
-	IEnumerator LogoAction() {
-		yield return new WaitForSeconds(4);
-		this.loadMainScene.allowSceneActivation = true;
+
+		// Fix load scene lag
+		for (int i = 0; i < 3; i++) {
+			yield return new WaitForEndOfFrame();
+			// print(Time.deltaTime);
+		}
 		while (this.canvasGroup.alpha > 0) {
 			this.canvasGroup.alpha -= 2f * Time.deltaTime;
 			yield return new WaitForEndOfFrame();
 		}
 		yield return SceneManager.UnloadSceneAsync(SceneManager.GetSceneByName("Cover"));
+	}
+	IEnumerator LogoAction() {
+		yield return new WaitForSeconds(4);
+		this.loadMainScene.allowSceneActivation = true;
 	}
 }

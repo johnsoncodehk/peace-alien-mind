@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Satellite : MonoBehaviour {
-
-	void OnMouseDown() {
-		print("click");
-	}
+public interface ISignalReceiverHandler {
+	
+	void OnSignalReceiver(Signal signal);
 }

@@ -1,84 +1,208 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.PostProcessing;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
 
-	public static GameManager instance;
-
-	public bool isWin {
+	public static GameManager instance {
 		get {
-			foreach (Planet planet in this.planets) {
-				if (!planet.isWin) {
-					return false;
-				}
+			if (!GameManager.m_Instance) {
+				GameManager.m_Instance = FindObjectOfType<GameManager>();
 			}
-			return true;
+			return GameManager.m_Instance;
 		}
 	}
+	private static GameManager m_Instance;
 
+	public Player player;
 	public int state;
-	public PlanetAxis planetAxis;
 	public Camera mainCamera;
-	public PostProcessingProfile postProcessing;
-	public Planet[] planets = new Planet[0];
-	public Player player2;
+	public PostProcessingBehaviour postProcessing;
+	public bool showBlurry;
+	// UI
+	public MainMenu mainMenu;
+	public SettingsPanel settingsPanel;
+	public Button settingsButton, backButton;
+	public int step;
+
+	// runtime
+	[HideInInspector] public Stage currentStage;
+
+	private Scene m_PlayingLevel;
+	private int currentStageIndex;
+	private bool playingAnimation;
+	private bool loadingLevel;
+	private int level;
+	private Image backButtonImage;
 
 	void Awake() {
-		GameManager.instance = this;
-
-		StartCoroutine(this.CameraZoon());
+		this.settingsButton.onClick.AddListener(AudioManager.instance.PlayClickButton);
+		this.settingsButton.onClick.AddListener(GameManager.instance.settingsPanel.Show);
+		this.backButton.onClick.AddListener(AudioManager.instance.PlayClickButtonBack);
+		this.backButton.onClick.AddListener(() => {
+			StartCoroutine(this.NextStageAsync(true, true));
+		});
+		this.backButtonImage = this.backButton.GetComponent<Image>();
+		this.postProcessing.profile = Instantiate(this.postProcessing.profile);
 	}
 	void Update() {
-		if (this.state == 0) {
-			if (this.isWin) {
-				StartCoroutine(this.WinAction());
+		if (Input.GetButtonDown("Horizontal")) {
+			if (!this.currentStage) return;
+			if (Input.GetAxisRaw("Horizontal") > 0) {
+				StartCoroutine(this.NextStageAsync(false, true));
+			}
+			else {
+				this.currentStageIndex -= 2;
+				this.currentStageIndex = Mathf.Max(this.currentStageIndex, -1);
+				StartCoroutine(this.NextStageAsync(false, true));
 			}
 		}
-		if (Input.GetButtonDown("Jump")) {
-			if (Player.instances.Count == 1) {
-				Player newPlayer = Instantiate(this.player2);
-				newPlayer.isNewPlayer = true;
-				newPlayer.transform.position = new Vector3(0, -50, 0);
+		this.SetBlurry(this.showBlurry ? 0.1f : 5);
+		if (!this.playingAnimation) {
+			if (this.currentStage) {
+				if (this.currentStage.IsWin()) {
+					StartCoroutine(this.NextStageAsync());
+				}
 			}
 		}
+		this.backButtonImage.raycastTarget = !this.playingAnimation && this.currentStage;
+		this.backButton.interactable = m_PlayingLevel.isLoaded;
 	}
 
-	private IEnumerator CameraZoon() {
-		GameManager.instance.mainCamera.orthographicSize = 10;
-		yield return StartCoroutine(this.SetBloom(2, 0.5f, 2));
-
-		yield return new WaitForSeconds(5);
-		float v = 0;
-		while (GameManager.instance.mainCamera.orthographicSize < 40) {
-			GameManager.instance.mainCamera.orthographicSize = Mathf.SmoothDamp(GameManager.instance.mainCamera.orthographicSize, 40, ref v, 10);
-			yield return new WaitForEndOfFrame();
-		}
-	}
-	private IEnumerator WinAction() {
-		yield return new WaitForSeconds(5);
-		GameManager.instance.mainCamera.orthographic = false;
-		this.planetAxis.gameObject.SetActive(true);
-		for (int i = 0; i < this.planets.Length; i++) {
-			Planet planet = this.planets[i];
-			planet.holder = this.planetAxis.transform.GetChild(i);
-		}
-		yield return new WaitForSeconds(5);
-		yield return StartCoroutine(this.SetBloom(0.5f, 2, 5));
-	}
 	public IEnumerator SetBloom(float from, float to, float s) {
-		BloomModel.Settings bSettings = this.postProcessing.bloom.settings;
-		bSettings.bloom.intensity = from;
-		this.postProcessing.bloom.settings = bSettings;
+		BloomModel.Settings settings = this.postProcessing.profile.bloom.settings;
+		settings.bloom.intensity = from;
+		this.postProcessing.profile.bloom.settings = settings;
 		float time1 = Time.time;
 		while (Time.time - time1 < s) {
 			float currentTime = Time.time - time1;
-			bSettings.bloom.intensity = Mathf.Lerp(from, to, currentTime / s);
-			this.postProcessing.bloom.settings = bSettings;
+			settings.bloom.intensity = Mathf.Lerp(from, to, currentTime / s);
+			this.postProcessing.profile.bloom.settings = settings;
 			yield return new WaitForEndOfFrame();
 		}
-		bSettings.bloom.intensity = to;
-		this.postProcessing.bloom.settings = bSettings;
+		settings.bloom.intensity = to;
+		this.postProcessing.profile.bloom.settings = settings;
+	}
+	public void SetBlurry(float targetValue) {
+		float min = 0.1f;
+		float max = 5;
+		float time = 0.25f;
+		float speed = (max - min) / time;
+
+		var settings = this.postProcessing.profile.depthOfField.settings;
+		float currentValue = settings.aperture;
+		float newValue = currentValue;
+		if (targetValue > currentValue) newValue += speed * Time.deltaTime;
+		if (targetValue < currentValue) newValue -= speed * Time.deltaTime;
+		newValue = Mathf.Clamp(newValue, min, max);
+		if (newValue == currentValue) return;
+		settings.aperture = newValue;
+		this.postProcessing.profile.depthOfField.settings = settings;
+	}
+	public Vector3 ScreenToWorldPoint(float targetObjectZ) {
+		Vector3 mousePosition = Input.mousePosition;
+		mousePosition.z = targetObjectZ - GameManager.instance.mainCamera.transform.position.z;
+		return GameManager.instance.mainCamera.ScreenToWorldPoint(mousePosition);
+	}
+	public void PlayLevel(int level) {
+		StartCoroutine(this.PlayLevelAsync(level));
+	}
+
+	private IEnumerator PlayLevelAsync(int level) {
+		if (this.m_PlayingLevel.isLoaded) yield break;
+		if (this.loadingLevel) yield break;
+		this.loadingLevel = true;
+		this.level = level;
+		if (level == 1) {
+			yield return SceneManager.LoadSceneAsync("Level_1", LoadSceneMode.Additive);
+			yield return new WaitForEndOfFrame();
+			Scene scene = SceneManager.GetSceneByName("Level_1");
+			this.PlayStages(scene);
+		}
+		else if (level == 2) {
+			yield return SceneManager.LoadSceneAsync("Level_2", LoadSceneMode.Additive);
+			yield return new WaitForEndOfFrame();
+			Scene scene = SceneManager.GetSceneByName("Level_2");
+			this.PlayStages(scene);
+		}
+		else if (level == 3) {
+			yield return SceneManager.LoadSceneAsync("Level_3", LoadSceneMode.Additive);
+			yield return new WaitForEndOfFrame();
+			Scene scene = SceneManager.GetSceneByName("Level_3");
+			this.PlayStages(scene);
+		}
+		this.loadingLevel = false;
+	}
+	private void PlayStages(Scene level) {
+		if (this.playingAnimation) return;
+		this.m_PlayingLevel = level;
+		this.currentStageIndex = -1;
+		StartCoroutine(this.NextStageAsync());
+	}
+	private IEnumerator NextStageAsync(bool isBack = false, bool skipWait = false) {
+		if (this.playingAnimation) yield break;;
+		this.playingAnimation = true;
+
+		Transform hideTrans = this.mainMenu.transform;
+		if (this.currentStage) {
+			hideTrans = this.currentStage.transform;
+			yield return new WaitForSeconds(skipWait ? 0 : 2);
+			foreach (var start in hideTrans.GetComponentsInChildren<StageStartPosition>()) {
+				start.enabled = false;
+			}
+		}
+
+		this.step++;
+
+		Transform showTrans = this.mainMenu.transform;
+		this.currentStageIndex++;
+		if (!isBack && this.currentStageIndex < this.m_PlayingLevel.GetRootGameObjects().Length) {
+			Stage newStage = Instantiate(this.m_PlayingLevel.GetRootGameObjects()[this.currentStageIndex]).GetComponent<Stage>();
+			newStage.gameObject.SetActive(true);
+			showTrans = newStage.transform;
+		}
+		else {
+			yield return SceneManager.UnloadSceneAsync(this.m_PlayingLevel);
+		}
+		showTrans.gameObject.SetActive(true);
+
+		Vector3 showStart = new Vector3(0, 0, 100);
+		Vector3 showEnd = new Vector3(0, 0, 0);
+		Vector3 hideStart = new Vector3(0, 0, 0);
+		Vector3 hideEnd = this.mainCamera.transform.position;
+
+		if (hideTrans.GetComponent<MainMenu>()) {
+			hideEnd -= (this.level - 2) * new Vector3(3.5f, 0);
+		}
+
+		float t = 0;
+		float v = 0;
+		while (t < 0.999999f) {
+			t = Mathf.SmoothDamp(t, 1, ref v, 0.25f);
+			showTrans.position = Vector3.Lerp(showStart, showEnd, t);
+			hideTrans.position = Vector3.Lerp(hideStart, hideEnd, t);
+			yield return new WaitForEndOfFrame();
+		}
+		showTrans.position = showEnd;
+		hideTrans.position = hideEnd;
+		if (showTrans.GetComponent<Stage>()) {
+			showTrans.GetComponent<Stage>().OnStartGame();
+			this.currentStage = showTrans.GetComponent<Stage>();
+		}
+		else {
+			this.currentStage = null;
+		}
+		if (hideTrans.GetComponent<Stage>()) {
+			Destroy(hideTrans.gameObject);
+		}
+		else {
+			hideTrans.gameObject.SetActive(false);
+		}
+
+		this.playingAnimation = false;
 	}
 }

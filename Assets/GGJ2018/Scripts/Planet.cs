@@ -2,27 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-#if UNITY_EDITOR
-using UnityEditor;
-
-[CustomEditor(typeof(Planet), true)]
-public class UIControllerInspector : Editor {
-
-	public override void OnInspectorGUI() {
-		base.OnInspectorGUI();
-
-		Planet t = this.target as Planet;
-		if (GUILayout.Button("Level Up")) {
-			t.LevelUp();
-		}
-		if (GUILayout.Button("Level Down")) {
-			t.LevelDown();
-		}
-	}
-}
-#endif
-
-public class Planet : MonoBehaviour {
+public class Planet : MonoBehaviour, ISignalReceiverHandler {
 
 	public int levelCount = 4;
 	public List<GameObject> levelObjects = new List<GameObject>();
@@ -30,12 +10,14 @@ public class Planet : MonoBehaviour {
 	public float rotationSpeed;
 	public float zPosSize = 0.2f;
 	public int saveSignal;
+	public bool isMenuPlanet;
+	public int clearAt;
 
 	public int level {
 		get { return this.m_Level; }
 		set { this.m_Level = Mathf.Clamp(value, 0, this.levelCount - 1); }
 	}
-	public bool isWin {
+	public bool isClear {
 		get { return this.m_Level == 0; }
 	}
 
@@ -47,7 +29,7 @@ public class Planet : MonoBehaviour {
 		this.m_Animator = this.GetComponent<Animator>();
 		this.ball.Rotate(new Vector3(0, 0, Random.Range(0, 360)));
 
-		this.level = this.levelCount - 1;
+		this.level = this.isMenuPlanet ? 0 : this.levelCount - 1;
 		for (int i = 0; i < this.levelObjects.Count; i++) {
 			var levelObj = this.levelObjects[i];
 			for (int j = 0; j < levelObj.transform.childCount; j++) {
@@ -59,42 +41,58 @@ public class Planet : MonoBehaviour {
 			tower.fromPlanet = this;
 		}
 	}
+	void Start() {
+		if (this.holder) {
+			this.transform.position = this.holder.transform.position;
+		}
+	}
 	void Update() {
 		if (this.holder) {
-			Vector3 pos = this.holder.position;
-			pos.z = (pos.z - this.holder.parent.position.z) * zPosSize + this.holder.parent.position.z;
-			this.transform.position = Vector3.SmoothDamp(this.transform.position, pos, ref this.v, 5, 20f);
+			this.transform.position = this.holder.transform.position;
 		}
 		this.ball.Rotate(new Vector3(0, 0, this.rotationSpeed * Time.deltaTime));
+		Stage stage = this.GetComponentInParent<Stage>();
+		if (this.isClear && this.clearAt != GameManager.instance.step && stage && !stage.IsWin()) {
+			this.ResetLevel();
+		}
 	}
 
-	public void LevelUp() {
-		this.m_Animator.Play("planet_level_up", 1, 0);
-		int oldLevel = this.level;
-		this.level--;
-		if (oldLevel != this.level) {
-			for (int i = 0; i < this.levelObjects.Count; i++) {
-				var levelObj = this.levelObjects[i];
-				StartCoroutine(this.ChangeLevelObjectColor(levelObj.transform.GetChild(oldLevel), levelObj.transform.GetChild(this.level)));
-			}
+	public void OnSignalReceiver(Signal signal) {
+		if (signal.isLast) {
+			this.m_Animator.Play("planet_level_up", 1, 0);
+			this.SetLevel(0);
+			this.clearAt = signal.shootAt;
 		}
+		Destroy(signal.gameObject);
+		AudioManager.instance.PlaySignal2();
 	}
-	public void LevelDown() {
+	// public void LevelUp() {
+	// 	this.m_Animator.Play("planet_level_up", 1, 0);
+	// 	this.SetLevel(this.level - 1);
+	// }
+	// public void LevelDown() {
+	// 	this.m_Animator.Play("planet_level_down", 1, 0);
+	// 	this.SetLevel(this.level + 1);
+	// }
+
+	private void ResetLevel() {
 		this.m_Animator.Play("planet_level_down", 1, 0);
+		this.SetLevel(this.levelCount - 1);
+	}
+	private void SetLevel(int newLevel) {
 		int oldLevel = this.level;
-		this.level++;
-		if (oldLevel != this.level) {
+		if (oldLevel != newLevel) {
+			this.level = newLevel;
 			for (int i = 0; i < this.levelObjects.Count; i++) {
 				var levelObj = this.levelObjects[i];
 				StartCoroutine(this.ChangeLevelObjectColor(levelObj.transform.GetChild(oldLevel), levelObj.transform.GetChild(this.level)));
 			}
 		}
 	}
-	
 	private IEnumerator ChangeLevelObjectColor(Transform oldObj, Transform newObj) {
 		oldObj.gameObject.SetActive(true);
 		newObj.gameObject.SetActive(true);
-		
+
 		SpriteRenderer oldSpr = oldObj.GetComponent<SpriteRenderer>();
 		SpriteRenderer newSpr = newObj.GetComponent<SpriteRenderer>();
 

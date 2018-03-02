@@ -1,7 +1,8 @@
 {
     "name": "GGJ2018",
     "references": [
-        "PostProcessing"
+        "PostProcessing",
+        "UIController"
     ],
     "includePlatforms": [],
     "excludePlatforms": []
