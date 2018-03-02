@@ -90,9 +90,6 @@ public class Planet : MonoBehaviour, ISignalReceiverHandler {
 		}
 	}
 	private IEnumerator ChangeLevelObjectColor(Transform oldObj, Transform newObj) {
-		oldObj.gameObject.SetActive(true);
-		newObj.gameObject.SetActive(true);
-
 		SpriteRenderer oldSpr = oldObj.GetComponent<SpriteRenderer>();
 		SpriteRenderer newSpr = newObj.GetComponent<SpriteRenderer>();
 
@@ -107,11 +104,14 @@ public class Planet : MonoBehaviour, ISignalReceiverHandler {
 				float t = currentTime / time;
 				oldSpr.color = Color.Lerp(color1, color2, t);
 				newSpr.color = Color.Lerp(color2, color1, t);
+				oldObj.gameObject.SetActive(true);
+				newObj.gameObject.SetActive(true);
 				yield return new WaitForEndOfFrame();
 			}
 		}
 
 		oldObj.gameObject.SetActive(false);
+		newObj.gameObject.SetActive(true);
 	}
 	private void OnRandomSpeed() {
 		if (Random.value > 0.5f) {

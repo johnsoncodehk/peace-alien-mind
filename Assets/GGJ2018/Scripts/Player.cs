@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(Character))]
-public class Player : MonoBehaviour {
+public class Player : MonoBehaviour
+	, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler {
 
 	public enum Control {
 		None,
@@ -14,6 +16,7 @@ public class Player : MonoBehaviour {
 
 	public Control control = Control.None;
 	public Signal signal;
+	public PlayerEnergys energys;
 	[HideInInspector] public Character character;
 
 	void Awake() {
@@ -33,7 +36,12 @@ public class Player : MonoBehaviour {
 			this.character.enabledMove = true;
 		}
 	}
-	void OnMouseDown() {
+
+	public void OnPointerDown(PointerEventData eventData) { }
+	public void OnPointerUp(PointerEventData eventData) { }
+	public void OnPointerClick(PointerEventData eventData) {
+		// if (GameManager.instance.currentStage && this.energys.remain <= 0) return;
+		this.energys.remain--;
 		GameManager.instance.step++;
 		AudioManager.instance.PlaySignal();
 		StartCoroutine(Signal.ShootAsync(this.signal, this.transform.position, Direction.Up, this.transform, GameManager.instance.step));

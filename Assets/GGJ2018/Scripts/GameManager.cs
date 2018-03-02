@@ -28,13 +28,14 @@ public class GameManager : MonoBehaviour {
 	public SettingsPanel settingsPanel;
 	public Button settingsButton, backButton;
 	public int step;
+	public int score;
 
 	// runtime
 	[HideInInspector] public Stage currentStage;
 
 	private Scene m_PlayingLevel;
 	private int currentStageIndex;
-	private bool playingAnimation;
+	private bool runningNext;
 	private bool loadingLevel;
 	private int level;
 	private Image backButtonImage;
@@ -62,14 +63,14 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		this.SetBlurry(this.showBlurry ? 0.1f : 5);
-		if (!this.playingAnimation) {
+		if (!this.runningNext) {
 			if (this.currentStage) {
 				if (this.currentStage.IsWin()) {
 					StartCoroutine(this.NextStageAsync());
 				}
 			}
 		}
-		this.backButtonImage.raycastTarget = !this.playingAnimation && this.currentStage;
+		this.backButtonImage.raycastTarget = !this.runningNext && this.currentStage;
 		this.backButton.interactable = m_PlayingLevel.isLoaded;
 	}
 
@@ -138,17 +139,19 @@ public class GameManager : MonoBehaviour {
 		this.loadingLevel = false;
 	}
 	private void PlayStages(Scene level) {
-		if (this.playingAnimation) return;
+		if (this.runningNext) return;
 		this.m_PlayingLevel = level;
 		this.currentStageIndex = -1;
+		this.score = 0;
 		StartCoroutine(this.NextStageAsync());
 	}
 	private IEnumerator NextStageAsync(bool isBack = false, bool skipWait = false) {
-		if (this.playingAnimation) yield break;;
-		this.playingAnimation = true;
+		if (this.runningNext) yield break;
+		this.runningNext = true;
 
 		Transform hideTrans = this.mainMenu.transform;
 		if (this.currentStage) {
+			this.score += Mathf.Clamp(this.player.energys.remain + 1, 0, 10);
 			hideTrans = this.currentStage.transform;
 			yield return new WaitForSeconds(skipWait ? 0 : 2);
 			foreach (var start in hideTrans.GetComponentsInChildren<StageStartPosition>()) {
@@ -168,6 +171,25 @@ public class GameManager : MonoBehaviour {
 		else {
 			yield return SceneManager.UnloadSceneAsync(this.m_PlayingLevel);
 		}
+
+		GameManager.instance.player.energys.show = false;
+
+		yield return StartCoroutine(this.ShowHide(showTrans, hideTrans));
+
+		this.currentStage = null;
+		if (showTrans.GetComponent<Stage>()) {
+			showTrans.GetComponent<Stage>().OnStartGame();
+			GameManager.instance.player.energys.show = true;
+			GameManager.instance.player.energys.remain = 10;
+			this.currentStage = showTrans.GetComponent<Stage>();
+		}
+		if (hideTrans.GetComponent<Stage>()) {
+			Destroy(hideTrans.gameObject);
+		}
+
+		this.runningNext = false;
+	}
+	private IEnumerator ShowHide(Transform showTrans, Transform hideTrans) {
 		showTrans.gameObject.SetActive(true);
 
 		Vector3 showStart = new Vector3(0, 0, 100);
@@ -181,7 +203,7 @@ public class GameManager : MonoBehaviour {
 
 		float t = 0;
 		float v = 0;
-		while (t < 0.999999f) {
+		while (t < 0.9999f) {
 			t = Mathf.SmoothDamp(t, 1, ref v, 0.25f);
 			showTrans.position = Vector3.Lerp(showStart, showEnd, t);
 			hideTrans.position = Vector3.Lerp(hideStart, hideEnd, t);
@@ -189,20 +211,7 @@ public class GameManager : MonoBehaviour {
 		}
 		showTrans.position = showEnd;
 		hideTrans.position = hideEnd;
-		if (showTrans.GetComponent<Stage>()) {
-			showTrans.GetComponent<Stage>().OnStartGame();
-			this.currentStage = showTrans.GetComponent<Stage>();
-		}
-		else {
-			this.currentStage = null;
-		}
-		if (hideTrans.GetComponent<Stage>()) {
-			Destroy(hideTrans.gameObject);
-		}
-		else {
-			hideTrans.gameObject.SetActive(false);
-		}
 
-		this.playingAnimation = false;
+		hideTrans.gameObject.SetActive(false);
 	}
 }
