@@ -12,7 +12,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: DefaultCompany
-  productName: Global Game Jam 2018
+  productName: Peace Alien
   defaultCursor: {fileID: 2800000, guid: 5780e843c7d2b482d98c0b5c5b8e3b53, type: 3}
   cursorHotspot: {x: 17, y: 21}
   m_SplashScreenBackgroundColor: {r: 0.13725491, g: 0.12156863, b: 0.1254902, a: 1}
@@ -126,7 +126,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.0
+  bundleVersion: 0.9.7
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -630,11 +630,15 @@ PlayerSettings:
       daydreamIconForeground: {fileID: 0}
       daydreamIconBackground: {fileID: 0}
   cloudServicesEnabled:
+    Build: 0
+    Collab: 0
+    ErrorHub: 0
+    Hub: 0
     UNet: 1
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
-  cloudProjectId: ebbe6578-1d32-4210-ab3b-56f4acf4092a
-  projectName: Global Game Jam 2018
+  cloudProjectId: 47bfbec0-421c-4a2d-8e01-327879a26080
+  projectName: Peace Alien
   organizationId: johnsoncodehk
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0

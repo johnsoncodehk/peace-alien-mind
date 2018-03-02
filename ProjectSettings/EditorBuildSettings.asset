@@ -10,4 +10,13 @@ EditorBuildSettings:
     guid: 58c75f113943610419e5aa75c3657852
   - enabled: 1
     path: Assets/GGJ2018/Scenes/MainScene.unity
-    guid: c392f3bdb4e114336adb39706c2d8096
+    guid: f0f10bfdf6ae92d43b90e1ee189aed95
+  - enabled: 1
+    path: Assets/GGJ2018/Scenes/Levels/EasyStages.unity
+    guid: bebeda5e9d6a25d45800f37aa70087a0
+  - enabled: 1
+    path: Assets/GGJ2018/Scenes/Levels/MediumStages.unity
+    guid: 4f5eb86352a4d924c90082994ba1b140
+  - enabled: 1
+    path: Assets/GGJ2018/Scenes/Levels/HardStages.unity
+    guid: 4b938688c1355ce4395c9a42c7935d7e
