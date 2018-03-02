@@ -1450,6 +1450,7 @@ MonoBehaviour:
   buttonClick: {fileID: 8300000, guid: 47906b059008a474881ecc6d3250a9c8, type: 3}
   buttonBack: {fileID: 8300000, guid: e6c06c32e3d9cdc40b0f2e34af6014e3, type: 3}
   signalBounce: {fileID: 8300000, guid: c53111ba710eaae45954443e50283bc7, type: 3}
+  test: 0
 --- !u!1 &675172480
 GameObject:
   m_ObjectHideFlags: 0
@@ -7634,7 +7635,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 24300002, guid: 2a5d72ac9be76734cbba66b6b6b9978c,
     type: 2}
-  m_audioClip: {fileID: 8300000, guid: 201d3d2f301b24303abb77879494df94, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 4034fd5d2ebae154d9f0f152524758f1, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
