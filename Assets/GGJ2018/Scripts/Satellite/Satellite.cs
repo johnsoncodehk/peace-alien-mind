@@ -58,6 +58,7 @@ public class Satellite : MonoBehaviour, ISignalReceiverHandler {
 				var outTran = outTrans[i];
 				signal.gridTransform.direction = outDir;
 				signal.transform.position = outTran.position;
+				signal.createBy = this.transform;
 				signal.ResetStartTime();
 			}
 		}

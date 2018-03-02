@@ -50,13 +50,17 @@ public class Signal : MonoBehaviour {
 			if (this.shootAt != GameManager.instance.step) {
 				this.lifeTime -= Time.deltaTime * 8;
 			}
-
-			float currentTime = Time.time - this.m_StartTime;
-			float t = currentTime / lifeTime;
-			this.m_SpriteRenderer.transform.localScale = Vector3.Lerp(this.startSize, this.endSize, this.sizeCurve.Evaluate(t));
-			this.m_SpriteRenderer.color = Color.Lerp(this.startColor, this.endColor, this.colorCurve.Evaluate(t));
-			this.m_Rigidbody.velocity = this.m_Rigidbody.transform.up * this.speed;
-			if (t > 1) {
+			if (lifeTime > 0) {
+				float currentTime = Time.time - this.m_StartTime;
+				float t = currentTime / lifeTime;
+				this.m_SpriteRenderer.transform.localScale = Vector3.Lerp(this.startSize, this.endSize, this.sizeCurve.Evaluate(t));
+				this.m_SpriteRenderer.color = Color.Lerp(this.startColor, this.endColor, this.colorCurve.Evaluate(t));
+				this.m_Rigidbody.velocity = this.m_Rigidbody.transform.up * this.speed;
+				if (t > 1) {
+					Destroy(this.gameObject);
+				}
+			}
+			else {
 				Destroy(this.gameObject);
 			}
 		}
