@@ -17,7 +17,7 @@ public class Tower : MonoBehaviour {
 	void FixedUpdate() {
 		if (Time.time >= this.nextShootTime) {
 			this.SetDelay();
-			StartCoroutine(Signal.ShootAsync(this.signal, this.shootPosition, Direction.Up, this.transform, GameManager.instance.step));
+			StartCoroutine(Signal.ShootAsync(this.signal, this.shootPosition, Direction.Up, this.transform, GameManager.instance.step, new List<Vector2Int>()));
 		}
 	}
 

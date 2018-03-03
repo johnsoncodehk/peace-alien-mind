@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
 		this.energys.remain--;
 		GameManager.instance.step++;
 		AudioManager.instance.PlaySignal();
-		StartCoroutine(Signal.ShootAsync(this.signal, this.transform.position, Direction.Up, this.transform, GameManager.instance.step));
+		Vector2Int position = Vector2Int.FloorToInt(this.transform.position);
+		StartCoroutine(Signal.ShootAsync(this.signal, this.transform.position, Direction.Up, this.transform, GameManager.instance.step, new List<Vector2Int>() { position }));
 	}
 }

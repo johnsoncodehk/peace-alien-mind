@@ -12,6 +12,7 @@ public class Planet : MonoBehaviour, ISignalReceiverHandler {
 	public int saveSignal;
 	public bool isMenuPlanet;
 	public int clearAt;
+	public List<Vector2Int> receiverSignalPositions = new List<Vector2Int>();
 
 	public int level {
 		get { return this.m_Level; }
@@ -59,6 +60,10 @@ public class Planet : MonoBehaviour, ISignalReceiverHandler {
 
 	public void OnSignalReceiver(Signal signal) {
 		if (signal.isLast) {
+			GridTransform gridTran = this.GetComponent<GridTransform>();
+			if (gridTran)
+				signal.sendPositions.Add(gridTran.position);
+			this.receiverSignalPositions = signal.sendPositions;
 			this.m_Animator.Play("planet_level_up", 1, 0);
 			this.SetLevel(0);
 			this.clearAt = signal.shootAt;

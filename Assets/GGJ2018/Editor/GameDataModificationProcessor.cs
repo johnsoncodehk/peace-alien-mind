@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
-public class MyAssetModificationProcessor : AssetModificationProcessor {
+public class MyAssetModificationProcessor : UnityEditor.AssetModificationProcessor {
 
 	public static string[] OnWillSaveAssets(string[] paths) {
 		foreach (string path in paths) {

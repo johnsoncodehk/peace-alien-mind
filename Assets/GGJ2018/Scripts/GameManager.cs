@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour {
 		if (!this.runningNext) {
 			if (this.currentStage) {
 				if (this.currentStage.IsWin()) {
+					this.currentStage.OnWin();
 					StartCoroutine(this.NextStageAsync());
 				}
 			}
@@ -166,7 +167,7 @@ public class GameManager : MonoBehaviour {
 		else {
 			if (!isBack) {
 				try {
-					RedBullMindGamersPlatform.GameOver(this.level, this.score);
+					RedBullMindGamersPlatform.GameOver(this.level, Mathf.Clamp(this.score, 0, 100));
 				}
 				catch { }
 			}

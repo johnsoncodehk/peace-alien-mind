@@ -12,6 +12,7 @@ public class Signal : MonoBehaviour {
 	public float speed = 1;
 	public int shootAt;
 	public Transform target;
+	public List<Vector2Int> sendPositions = new List<Vector2Int>();
 
 	public float smoothTime = 0.2f, maxSpeed = 10, deltaTime = 0.1f;
 
@@ -76,19 +77,20 @@ public class Signal : MonoBehaviour {
 	public void ResetStartTime() {
 		this.m_StartTime = Time.time;
 	}
-	public static IEnumerator ShootAsync(Signal signal, Vector2 shootPos, Direction direction, Transform createBy, int shootAt) {
-		Signal.Create(signal, shootPos, direction, createBy, shootAt);
+	public static IEnumerator ShootAsync(Signal signal, Vector2 shootPos, Direction direction, Transform createBy, int shootAt, List<Vector2Int> line) {
+		Signal.Create(signal, shootPos, direction, createBy, shootAt, line);
 		yield return new WaitForSeconds(0.05f);
-		Signal.Create(signal, shootPos, direction, createBy, shootAt);
+		Signal.Create(signal, shootPos, direction, createBy, shootAt, line);
 		yield return new WaitForSeconds(0.05f);
-		Signal.Create(signal, shootPos, direction, createBy, shootAt).isLast = true;
+		Signal.Create(signal, shootPos, direction, createBy, shootAt, line).isLast = true;
 	}
-	public static Signal Create(Signal prefab, Vector2 pos, Direction direction, Transform createBy, int shootAt) {
+	public static Signal Create(Signal prefab, Vector2 pos, Direction direction, Transform createBy, int shootAt, List<Vector2Int> line) {
 		var signal = Instantiate(prefab);
 		signal.transform.position = pos;
 		signal.gridTransform.direction = direction;
 		signal.createBy = createBy;
 		signal.shootAt = shootAt;
+		signal.sendPositions = new List<Vector2Int>(line);
 		return signal;
 	}
 }

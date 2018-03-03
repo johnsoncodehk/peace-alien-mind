@@ -39,11 +39,12 @@ public class Satellite : MonoBehaviour, ISignalReceiverHandler {
 			Destroy(signal.gameObject);
 			return;
 		}
+		signal.sendPositions.Add(this.gridTransform.position);
 		if (this.isRelay) {
 			// 中繼
 			signal.target = this.receiver;
 			if (signal.isLast) {
-				StartCoroutine(this.DelayShoot(outDirs, outTrans, signal));
+				StartCoroutine(this.DelayShoot(outDirs, outTrans, signal, signal.sendPositions));
 			}
 		}
 		else {
@@ -80,13 +81,13 @@ public class Satellite : MonoBehaviour, ISignalReceiverHandler {
 			.ToList();
 	}
 
-	private IEnumerator DelayShoot(List<Direction> outDirs, List<Transform> outTrans, Signal signal) {
+	private IEnumerator DelayShoot(List<Direction> outDirs, List<Transform> outTrans, Signal signal, List<Vector2Int> line) {
 		yield return new WaitForSeconds(0.2f);
 		AudioManager.instance.PlaySignal();
 		for (int i = 0; i < outDirs.Count; i++) {
 			var outDir = outDirs[i];
 			var outTran = outTrans[i];
-			StartCoroutine(Signal.ShootAsync(this.signal, outTran.position, outDir, this.transform, signal.shootAt));
+			StartCoroutine(Signal.ShootAsync(this.signal, outTran.position, outDir, this.transform, signal.shootAt, line));
 		}
 	}
 }
