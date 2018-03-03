@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour {
 		this.settingsButton.onClick.AddListener(GameManager.instance.settingsPanel.Show);
 		this.backButton.onClick.AddListener(AudioManager.instance.PlayClickButtonBack);
 		this.backButton.onClick.AddListener(() => {
-			StartCoroutine(this.NextStageAsync(true, true));
+			StartCoroutine(this.NextStageAsync(true));
 		});
 		this.backButtonImage = this.backButton.GetComponent<Image>();
 		this.postProcessing.profile = Instantiate(this.postProcessing.profile);
@@ -55,30 +55,26 @@ public class GameManager : MonoBehaviour {
 		}));
 	}
 	void Update() {
-		if (Input.GetButtonDown("Horizontal")) {
+		if (Input.GetButtonDown("Horizontal") && Input.GetButton("Jump")) {
 			if (!this.currentStage) return;
 			if (Input.GetAxisRaw("Horizontal") > 0) {
-				StartCoroutine(this.NextStageAsync(false, true));
+				this.NextStage(0);
 			}
 			else {
 				this.currentStageIndex -= 2;
 				this.currentStageIndex = Mathf.Max(this.currentStageIndex, -1);
-				StartCoroutine(this.NextStageAsync(false, true));
+				this.NextStage(0);
 			}
 		}
 		this.SetBlurry(this.showBlurry ? 0.1f : 5);
-		if (!this.runningNext) {
-			if (this.currentStage) {
-				if (this.currentStage.IsWin()) {
-					this.currentStage.OnWin();
-					StartCoroutine(this.NextStageAsync());
-				}
-			}
-		}
 		this.backButtonImage.raycastTarget = !this.runningNext && this.currentStage;
 		this.backButton.interactable = m_PlayingLevel != null;
 	}
 
+	public void NextStage(int addScore) {
+		this.score += addScore;
+		StartCoroutine(this.NextStageAsync());
+	}
 	public IEnumerator SetBloom(float from, float to, float s) {
 		BloomModel.Settings settings = this.postProcessing.profile.bloom.settings;
 		settings.bloom.intensity = from;
@@ -126,18 +122,16 @@ public class GameManager : MonoBehaviour {
 		this.m_PlayingLevel = level;
 		this.currentStageIndex = -1;
 		this.score = 0;
-		StartCoroutine(this.NextStageAsync());
+		this.NextStage(0);
 	}
-	private IEnumerator NextStageAsync(bool isBack = false, bool skipWait = false) {
+	private IEnumerator NextStageAsync(bool isBack = false) {
 		if (this.runningNext) yield break;
 		this.runningNext = true;
 
 		Transform hideTrans = this.mainMenu.transform;
 		if (this.currentStage) {
-			this.score += Mathf.Clamp(this.player.energys.remain + 1, 0, 10);
 			hideTrans = this.currentStage.transform;
-			yield return new WaitForSeconds(skipWait ? 0 : 2);
-			foreach (var start in hideTrans.GetComponentsInChildren<StageStartPosition>()) {
+			foreach (var start in this.currentStage.GetComponentsInChildren<StageStartPosition>()) {
 				start.enabled = false;
 			}
 		}
@@ -155,7 +149,7 @@ public class GameManager : MonoBehaviour {
 				if (!prefab) {
 					Debug.LogError("Prefab Missing: " + stageObjectData.name);
 					this.runningNext = false;
-					StartCoroutine(this.NextStageAsync());
+					this.NextStage(0);
 					yield break;
 				}
 				GridTransform stageObject = Instantiate(prefab, Vector3.zero, Quaternion.identity, stage.transform);

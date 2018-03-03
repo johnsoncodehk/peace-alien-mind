@@ -53,7 +53,7 @@ public class Planet : MonoBehaviour, ISignalReceiverHandler {
 		}
 		this.ball.Rotate(new Vector3(0, 0, this.rotationSpeed * Time.deltaTime));
 		Stage stage = this.GetComponentInParent<Stage>();
-		if (this.isClear && this.clearAt != GameManager.instance.step && stage && !stage.IsWin()) {
+		if (this.isClear && this.clearAt != GameManager.instance.step && stage && stage.state != Stage.State.GameOver) {
 			this.ResetLevel();
 		}
 	}

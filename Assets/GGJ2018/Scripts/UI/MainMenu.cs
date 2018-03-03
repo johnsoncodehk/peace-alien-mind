@@ -17,11 +17,11 @@ public class MainMenu : MonoBehaviour {
 				GameManager.instance.PlayLevel(level);
 			});
 		}
-	}
-	void OnEnable() {
 		if (this.startPosition == Vector3.zero) {
 			this.startPosition = GameManager.instance.player.transform.position;
 		}
+	}
+	void OnEnable() {
 		GameManager.instance.player.character.targetPosition = this.startPosition;
 	}
 

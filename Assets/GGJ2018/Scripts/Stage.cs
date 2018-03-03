@@ -54,9 +54,16 @@ public class StageInspector : Editor {
 
 public class Stage : MonoBehaviour {
 
+	public enum State {
+		None,
+		Playing,
+		GameOver,
+	}
+
 	public Tilemap tilemap;
 	public LineRenderer line;
 	public List<Satellite> satelites = new List<Satellite>();
+	public State state = State.None;
 
 	private List<Planet> m_Planets = new List<Planet>();
 	private Vector2Int size = new Vector2Int(12, 8);
@@ -74,27 +81,21 @@ public class Stage : MonoBehaviour {
 				line.widthMultiplier = w;
 			}
 		}
+		if (this.state == State.Playing) {
+			if (this.IsWin()) {
+				this.state = State.GameOver;
+				StartCoroutine(this.WinAction());
+			}
+			else if (this.IsLose()) {
+				this.state = State.GameOver;
+				StartCoroutine(this.LoseAction());
+			}
+		}
 	}
 
 	public void OnStartGame() {
 		this.m_Planets = this.GetComponentsInChildren<Planet>().ToList();
-	}
-	public void OnWin() {
-		foreach (Planet planet in this.m_Planets) {
-			var newLine = Instantiate(this.line);
-			newLine.transform.SetParent(this.transform, false);
-			newLine.gameObject.SetActive(true);
-			newLine.positionCount = planet.receiverSignalPositions.Count;
-			newLine.widthMultiplier = 0;
-			newLine.SetPositions(planet.receiverSignalPositions.Select(p => new Vector3(p.x, p.y, 0)).ToArray());
-			this.m_Lines.Add(newLine);
-		}
-	}
-	public bool IsWin() {
-		foreach (var end in this.m_Planets) {
-			if (!end.isClear) return false;
-		}
-		return true;
+		this.state = State.Playing;
 	}
 	public bool InBorder(Vector2Int pos) {
 		Vector2 sizeF = (Vector2)this.size * 0.5f;
@@ -105,5 +106,36 @@ public class Stage : MonoBehaviour {
 		for (int i = 0; i < grid.transform.childCount; i++) {
 			grid.transform.GetChild(i).gameObject.SetActive(i == style);
 		}
+	}
+
+	private bool IsLose() {
+		return GameManager.instance.player.energys.remain == 0
+			&& !FindObjectOfType<Signal>()
+			&& !this.GetComponentsInChildren<Satellite>().ToList().Any(s => s.hasSignal);
+	}
+	private IEnumerator LoseAction() {
+		yield return new WaitForSeconds(2);
+		GameManager.instance.NextStage(0);
+	}
+	private bool IsWin() {
+		foreach (var end in this.m_Planets) {
+			if (!end.isClear) return false;
+		}
+		return true;
+	}
+	private IEnumerator WinAction() {
+		int score = Mathf.Clamp(GameManager.instance.player.energys.remain + 1, 0, 10);
+		foreach (Planet planet in this.m_Planets) {
+			var newLine = Instantiate(this.line);
+			newLine.transform.SetParent(this.transform, false);
+			newLine.gameObject.SetActive(true);
+			newLine.positionCount = planet.receiverSignalPositions.Count;
+			newLine.widthMultiplier = 0;
+			newLine.SetPositions(planet.receiverSignalPositions.Select(p => new Vector3(p.x, p.y, 0)).ToArray());
+			this.m_Lines.Add(newLine);
+		}
+
+		yield return new WaitForSeconds(2);
+		GameManager.instance.NextStage(score);
 	}
 }

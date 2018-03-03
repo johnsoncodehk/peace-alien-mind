@@ -21,7 +21,7 @@ public class Satellite : MonoBehaviour, ISignalReceiverHandler {
 	public List<Transfer> transfers = new List<Transfer>();
 	public Signal signal;
 	public Transform receiver;
-	public bool isRelay = true;
+	public bool isRelay = true, hasSignal;
 
 	private float angleSpeed;
 
@@ -82,6 +82,7 @@ public class Satellite : MonoBehaviour, ISignalReceiverHandler {
 	}
 
 	private IEnumerator DelayShoot(List<Direction> outDirs, List<Transform> outTrans, Signal signal, List<Vector2Int> line) {
+		this.hasSignal = true;
 		yield return new WaitForSeconds(0.2f);
 		AudioManager.instance.PlaySignal();
 		for (int i = 0; i < outDirs.Count; i++) {
@@ -89,5 +90,6 @@ public class Satellite : MonoBehaviour, ISignalReceiverHandler {
 			var outTran = outTrans[i];
 			StartCoroutine(Signal.ShootAsync(this.signal, outTran.position, outDir, this.transform, signal.shootAt, line));
 		}
+		this.hasSignal = false;
 	}
 }

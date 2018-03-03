@@ -40,7 +40,7 @@ public class Player : MonoBehaviour
 	public void OnPointerDown(PointerEventData eventData) { }
 	public void OnPointerUp(PointerEventData eventData) { }
 	public void OnPointerClick(PointerEventData eventData) {
-		// if (GameManager.instance.currentStage && this.energys.remain <= 0) return;
+		if (GameManager.instance.currentStage && this.energys.remain <= 0) return;
 		this.energys.remain--;
 		GameManager.instance.step++;
 		AudioManager.instance.PlaySignal();
