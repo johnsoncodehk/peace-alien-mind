@@ -21,7 +21,7 @@ public class Satellite : MonoBehaviour, ISignalReceiverHandler {
 	public List<Transfer> transfers = new List<Transfer>();
 	public Signal signal;
 	public Transform receiver;
-	public bool isRelay = true;
+	public bool isRelay = true, hasSignal;
 
 	private float angleSpeed;
 
@@ -33,21 +33,18 @@ public class Satellite : MonoBehaviour, ISignalReceiverHandler {
 	}
 
 	public void OnSignalReceiver(Signal signal) {
-		var outDirs = this.GetOutDirections(signal.gridTransform.direction);
+		List<Direction> outDirs = this.GetOutDirections(signal.gridTransform.direction);
 		var outTrans = this.GetOutTransform(signal.gridTransform.direction);
 		if (outDirs.Count == 0) {
 			Destroy(signal.gameObject);
 			return;
 		}
+		signal.sendPositions.Add(this.gridTransform.position);
 		if (this.isRelay) {
 			// 中繼
 			signal.target = this.receiver;
 			if (signal.isLast) {
-				for (int i = 0; i < outDirs.Count; i++) {
-					var outDir = outDirs[i];
-					var outTran = outTrans[i];
-					StartCoroutine(Signal.ShootAsync(this.signal, outTran.position, outDir, this.transform, signal.shootAt));
-				}
+				StartCoroutine(this.DelayShoot(outDirs, outTrans, signal, signal.sendPositions));
 			}
 		}
 		else {
@@ -58,6 +55,7 @@ public class Satellite : MonoBehaviour, ISignalReceiverHandler {
 				var outTran = outTrans[i];
 				signal.gridTransform.direction = outDir;
 				signal.transform.position = outTran.position;
+				signal.createBy = this.transform;
 				signal.ResetStartTime();
 			}
 		}
@@ -81,5 +79,17 @@ public class Satellite : MonoBehaviour, ISignalReceiverHandler {
 			.Where(t => (int)t.inDirection == inDirInt)
 			.Select(t => t.outTransform ? t.outTransform : this.transform)
 			.ToList();
+	}
+
+	private IEnumerator DelayShoot(List<Direction> outDirs, List<Transform> outTrans, Signal signal, List<Vector2Int> line) {
+		this.hasSignal = true;
+		yield return new WaitForSeconds(0.2f);
+		AudioManager.instance.PlaySignal();
+		for (int i = 0; i < outDirs.Count; i++) {
+			var outDir = outDirs[i];
+			var outTran = outTrans[i];
+			StartCoroutine(Signal.ShootAsync(this.signal, outTran.position, outDir, this.transform, signal.shootAt, line));
+		}
+		this.hasSignal = false;
 	}
 }

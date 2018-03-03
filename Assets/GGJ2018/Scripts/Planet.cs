@@ -12,6 +12,7 @@ public class Planet : MonoBehaviour, ISignalReceiverHandler {
 	public int saveSignal;
 	public bool isMenuPlanet;
 	public int clearAt;
+	public List<Vector2Int> receiverSignalPositions = new List<Vector2Int>();
 
 	public int level {
 		get { return this.m_Level; }
@@ -52,13 +53,17 @@ public class Planet : MonoBehaviour, ISignalReceiverHandler {
 		}
 		this.ball.Rotate(new Vector3(0, 0, this.rotationSpeed * Time.deltaTime));
 		Stage stage = this.GetComponentInParent<Stage>();
-		if (this.isClear && this.clearAt != GameManager.instance.step && stage && !stage.IsWin()) {
+		if (this.isClear && this.clearAt != GameManager.instance.step && stage && stage.state != Stage.State.GameOver) {
 			this.ResetLevel();
 		}
 	}
 
 	public void OnSignalReceiver(Signal signal) {
 		if (signal.isLast) {
+			GridTransform gridTran = this.GetComponent<GridTransform>();
+			if (gridTran)
+				signal.sendPositions.Add(gridTran.position);
+			this.receiverSignalPositions = signal.sendPositions;
 			this.m_Animator.Play("planet_level_up", 1, 0);
 			this.SetLevel(0);
 			this.clearAt = signal.shootAt;
@@ -90,9 +95,6 @@ public class Planet : MonoBehaviour, ISignalReceiverHandler {
 		}
 	}
 	private IEnumerator ChangeLevelObjectColor(Transform oldObj, Transform newObj) {
-		oldObj.gameObject.SetActive(true);
-		newObj.gameObject.SetActive(true);
-
 		SpriteRenderer oldSpr = oldObj.GetComponent<SpriteRenderer>();
 		SpriteRenderer newSpr = newObj.GetComponent<SpriteRenderer>();
 
@@ -107,11 +109,14 @@ public class Planet : MonoBehaviour, ISignalReceiverHandler {
 				float t = currentTime / time;
 				oldSpr.color = Color.Lerp(color1, color2, t);
 				newSpr.color = Color.Lerp(color2, color1, t);
+				oldObj.gameObject.SetActive(true);
+				newObj.gameObject.SetActive(true);
 				yield return new WaitForEndOfFrame();
 			}
 		}
 
 		oldObj.gameObject.SetActive(false);
+		newObj.gameObject.SetActive(true);
 	}
 	private void OnRandomSpeed() {
 		if (Random.value > 0.5f) {

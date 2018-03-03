@@ -47,7 +47,7 @@ public class AudioManager : MonoBehaviour {
 		this.soundSource.PlayOneShot(this.buttonBack);
 	}
 	public void PlaySignal() {
-		this.signalEffectSource.Play();
+		this.signalEffectSource.PlayOneShot(this.signalEffectSource.clip);
 	}
 	public void PlaySignal2() {
 		StartCoroutine(this.PlayerSignal2Async());

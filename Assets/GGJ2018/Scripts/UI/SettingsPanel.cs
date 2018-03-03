@@ -6,12 +6,17 @@ using UnityEngine.Audio;
 
 public class SettingsPanel : UIController {
 
+	public int boardStyle {
+		get { return this.boardDropdown.value; }
+	}
+
 	public Button resumeButton;
 	public Toggle musicToggle, soundToggle;
+	public Dropdown boardDropdown;
 	public AudioMixerGroup music, sound;
 	public Text infoText;
 	
-	void Awake() {
+	void Start() {
 		this.resumeButton.onClick.AddListener(AudioManager.instance.PlayClickButtonBack);
 		this.resumeButton.onClick.AddListener(this.Hide);
 		this.musicToggle.onValueChanged.AddListener((v) => {
@@ -20,7 +25,13 @@ public class SettingsPanel : UIController {
 		this.soundToggle.onValueChanged.AddListener((v) => {
 			this.UpdateAudios();
 		});
+		this.boardDropdown.onValueChanged.AddListener((v) => {
+			foreach (Stage stage in FindObjectsOfType<Stage>()) {
+				stage.UpdateBoardStyle(v);
+			}
+		});
 		this.infoText.text = this.infoText.text.Replace("{version}", Application.version);
+		this.infoText.text = this.infoText.text.Replace("{data_version}", GameManager.instance.gameData.version.ToString());
 	}
 
 	public override void Show() {
