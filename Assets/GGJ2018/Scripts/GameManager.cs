@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
 	public Camera mainCamera;
 	public PostProcessingBehaviour postProcessing;
 	public bool showBlurry;
+	public GameData gameData;
 	// UI
 	public MainMenu mainMenu;
 	public SettingsPanel settingsPanel;
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour {
 		});
 		this.backButtonImage = this.backButton.GetComponent<Image>();
 		this.postProcessing.profile = Instantiate(this.postProcessing.profile);
+		StartCoroutine(this.LoadGameData());
 	}
 	void Update() {
 		if (Input.GetButtonDown("Horizontal")) {
@@ -113,6 +115,20 @@ public class GameManager : MonoBehaviour {
 		StartCoroutine(this.PlayLevelAsync(level));
 	}
 
+	private IEnumerator LoadGameData() {
+		string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "game_data.txt");
+
+		string result;
+		if (filePath.Contains("://") || filePath.Contains(":///")) {
+			WWW www = new WWW(filePath);
+			yield return www;
+			result = www.text;
+		}
+		else
+			result = System.IO.File.ReadAllText(filePath);
+
+		print(result);
+	}
 	private IEnumerator PlayLevelAsync(int level) {
 		if (this.m_PlayingLevel.isLoaded) yield break;
 		if (this.loadingLevel) yield break;
