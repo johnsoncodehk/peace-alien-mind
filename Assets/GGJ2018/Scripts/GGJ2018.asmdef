@@ -2,7 +2,8 @@
     "name": "GGJ2018",
     "references": [
         "PostProcessing",
-        "UIController"
+        "UIController",
+        "RedBullMindGamersPlatform"
     ],
     "includePlatforms": [],
     "excludePlatforms": []
