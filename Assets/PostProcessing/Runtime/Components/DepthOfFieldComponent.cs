@@ -40,7 +40,7 @@ namespace UnityEngine.PostProcessing
         RenderTexture m_CoCHistory;
 
         // Height of the 35mm full-frame format (36mm x 24mm)
-        const float k_FilmHeight = 0.024f;
+        float k_FilmHeight = 0.024f;
 
         float CalculateFocalLength()
         {
@@ -79,6 +79,8 @@ namespace UnityEngine.PostProcessing
 
         public void Prepare(RenderTexture source, Material uberMaterial, bool antialiasCoC, Vector2 taaJitter, float taaBlending)
         {
+            k_FilmHeight = 0.024f * (600.0f / Screen.height);
+
             var settings = model.settings;
             var colorFormat = RenderTextureFormat.DefaultHDR;
             var cocFormat = SelectFormat(RenderTextureFormat.R8, RenderTextureFormat.RHalf);
