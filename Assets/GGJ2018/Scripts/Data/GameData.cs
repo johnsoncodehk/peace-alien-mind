@@ -17,24 +17,32 @@ public class GameData {
 		Debug.Log("Save Json: " + json);
 		System.IO.File.WriteAllText(filePath, json);
 	}
-	public static IEnumerator Load(string downUrl, System.Action<GameData> response) {
+	public static IEnumerator Load(string downUrl, System.Action<GameData, int> response) {
 		WWW download;
-		// Fix Url無效
+		int error = 0; // 成功
 		if (GetWWW(downUrl, out download)) {
 			yield return download;
-			// Fix download失敗
 			if (download.error == null) {
-				// Fix download的不是json
 				try {
 					GameData data = JsonUtility.FromJson<GameData>(download.text);
-					// Fix download的json不對
 					if (data.version > 0 && data.levels.Count != 0) {
-						response(data);
+						response(data, error);
 						yield break;
-					};
+					}
+					else {
+						error = 4; // 不是有效的GameData
+					}
 				}
-				catch { }
+				catch {
+					error = 3; // Json parse fail
+				}
 			}
+			else {
+				error = 2; // 下載失敗
+			}
+		}
+		else {
+			error = 1; // Url無效
 		}
 
 		// 後備
@@ -48,7 +56,7 @@ public class GameData {
 		else
 			result = System.IO.File.ReadAllText(filePath);
 
-		response(JsonUtility.FromJson<GameData>(result));
+		response(JsonUtility.FromJson<GameData>(result), error);
 	}
 	public static bool GetWWW(string downUrl, out WWW www) {
 		try {

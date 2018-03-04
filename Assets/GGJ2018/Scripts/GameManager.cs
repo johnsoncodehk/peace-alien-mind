@@ -31,10 +31,11 @@ public class GameManager : MonoBehaviour {
 	public MainMenu mainMenu;
 	public SettingsPanel settingsPanel;
 	public Button settingsButton, backButton;
+	public GameMessage gameMessage;
 
 	// RemoteSettings
 	public string gameDataUrl;
-	public bool debugMode = false;
+	public bool debugMode;
 
 	// runtime
 	[HideInInspector] public Stage currentStage;
@@ -57,8 +58,22 @@ public class GameManager : MonoBehaviour {
 		this.postProcessing.profile = Instantiate(this.postProcessing.profile);
 	}
 	void Start() {
-		StartCoroutine(GameData.Load(this.gameDataUrl, (gameData) => {
+		this.gameMessage.ShowMessage("Game Data Updating...");
+		StartCoroutine(GameData.Load(this.gameDataUrl, (gameData, errorCode) => {
 			this.gameData = gameData;
+			if (errorCode == 0) {
+				this.gameMessage.ShowMessage(
+					"Game Data Update Completed\nData Version: {data_version}"
+					.Replace("{data_version}", this.gameData.version.ToString())
+				);
+			}
+			else {
+				this.gameMessage.ShowMessage(
+					"Game Data Update Failed\nError Code: {error_code}\nData Version: {data_version}"
+					.Replace("{error_code}", errorCode.ToString())
+					.Replace("{data_version}", this.gameData.version.ToString())
+				);
+			}
 		}));
 	}
 	void Update() {
