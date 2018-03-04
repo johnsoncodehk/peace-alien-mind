@@ -15,8 +15,11 @@ public class SettingsPanel : UIController {
 	public Dropdown boardDropdown;
 	public AudioMixerGroup music, sound;
 	public Text infoText;
-	
-	void Start() {
+
+	private string info;
+
+	void Awake() {
+		this.info = this.infoText.text;
 		this.resumeButton.onClick.AddListener(AudioManager.instance.PlayClickButtonBack);
 		this.resumeButton.onClick.AddListener(this.Hide);
 		this.musicToggle.onValueChanged.AddListener((v) => {
@@ -30,8 +33,10 @@ public class SettingsPanel : UIController {
 				stage.UpdateBoardStyle(v);
 			}
 		});
-		this.infoText.text = this.infoText.text.Replace("{version}", Application.version);
-		this.infoText.text = this.infoText.text.Replace("{data_version}", GameManager.instance.gameData.version.ToString());
+		this.UpdateInfo();
+	}
+	protected override void OnEnable() {
+		this.UpdateInfo();
 	}
 
 	public override void Show() {
@@ -43,6 +48,12 @@ public class SettingsPanel : UIController {
 		GameManager.instance.showBlurry = false;
 	}
 
+	private void UpdateInfo() {
+		string text = this.info;
+		text = text.Replace("{version}", Application.version);
+		text = text.Replace("{data_version}", GameManager.instance.gameData.version.ToString());
+		this.infoText.text = text;
+	}
 	private void UpdateAudios() {
 		this.music.audioMixer.SetFloat("my_volume", this.musicToggle.isOn ? 0 : -80);
 		this.sound.audioMixer.SetFloat("my_volume", this.soundToggle.isOn ? 0 : -80);

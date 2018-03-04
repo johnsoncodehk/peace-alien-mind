@@ -24,12 +24,18 @@ public class GameManager : MonoBehaviour {
 	public PostProcessingBehaviour postProcessing;
 	public bool showBlurry;
 	public GameData gameData;
+	public int step;
+	public int score;
+
 	// UI
 	public MainMenu mainMenu;
 	public SettingsPanel settingsPanel;
 	public Button settingsButton, backButton;
-	public int step;
-	public int score;
+	public GameMessage gameMessage;
+
+	// RemoteSettings
+	public string gameDataUrl;
+	public bool debugMode;
 
 	// runtime
 	[HideInInspector] public Stage currentStage;
@@ -50,12 +56,28 @@ public class GameManager : MonoBehaviour {
 		});
 		this.backButtonImage = this.backButton.GetComponent<Image>();
 		this.postProcessing.profile = Instantiate(this.postProcessing.profile);
-		StartCoroutine(GameData.Load((gameData) => {
+	}
+	void Start() {
+		this.gameMessage.ShowMessage("Game Data Updating...");
+		StartCoroutine(GameData.Load(this.gameDataUrl, (gameData, errorCode) => {
 			this.gameData = gameData;
+			if (errorCode == 0) {
+				this.gameMessage.ShowMessage(
+					"Game Data Update Completed\nData Version: {data_version}"
+					.Replace("{data_version}", this.gameData.version.ToString())
+				);
+			}
+			else {
+				this.gameMessage.ShowMessage(
+					"Game Data Update Failed\nError Code: {error_code}\nData Version: {data_version}"
+					.Replace("{error_code}", errorCode.ToString())
+					.Replace("{data_version}", this.gameData.version.ToString())
+				);
+			}
 		}));
 	}
 	void Update() {
-		if (Input.GetButtonDown("Horizontal") && Input.GetButton("Jump")) {
+		if (this.debugMode && Input.GetButtonDown("Horizontal") && Input.GetButton("Jump")) {
 			if (!this.currentStage) return;
 			if (Input.GetAxisRaw("Horizontal") > 0) {
 				this.NextStage(0);

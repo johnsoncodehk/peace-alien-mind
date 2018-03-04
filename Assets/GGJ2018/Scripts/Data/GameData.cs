@@ -17,9 +17,36 @@ public class GameData {
 		Debug.Log("Save Json: " + json);
 		System.IO.File.WriteAllText(filePath, json);
 	}
-	public static IEnumerator Load(System.Action<GameData> response) {
-		string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "game_data.txt");
+	public static IEnumerator Load(string downUrl, System.Action<GameData, int> response) {
+		WWW download;
+		int error = 0; // 成功
+		if (GetWWW(downUrl, out download)) {
+			yield return download;
+			if (download.error == null) {
+				try {
+					GameData data = JsonUtility.FromJson<GameData>(download.text);
+					if (data.version > 0 && data.levels.Count != 0) {
+						response(data, error);
+						yield break;
+					}
+					else {
+						error = 4; // 不是有效的GameData
+					}
+				}
+				catch {
+					error = 3; // Json parse fail
+				}
+			}
+			else {
+				error = 2; // 下載失敗
+			}
+		}
+		else {
+			error = 1; // Url無效
+		}
 
+		// 後備
+		string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "game_data.txt");
 		string result;
 		if (filePath.Contains("://") || filePath.Contains(":///")) {
 			WWW www = new WWW(filePath);
@@ -29,7 +56,17 @@ public class GameData {
 		else
 			result = System.IO.File.ReadAllText(filePath);
 
-		response(JsonUtility.FromJson<GameData>(result));
+		response(JsonUtility.FromJson<GameData>(result), error);
+	}
+	public static bool GetWWW(string downUrl, out WWW www) {
+		try {
+			www = new WWW(downUrl);
+			return true;
+		}
+		catch {
+			www = null;
+			return false;
+		}
 	}
 }
 
