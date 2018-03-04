@@ -7473,7 +7473,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: f84bf704a30dce146ba6ba854a0e331d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e9043ca81d5aae2449ecb0720caa03fc, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7935,7 +7935,7 @@ MonoBehaviour:
   backButton: {fileID: 1287646062}
   gameMessage: {fileID: 146995202}
   gameDataUrl: https://johnsoncodehk.github.io/peace-alien/StreamingAssets/game_data.txt
-  debugMode: 1
+  debugMode: 0
   currentStage: {fileID: 0}
 --- !u!4 &1355535302
 Transform:
