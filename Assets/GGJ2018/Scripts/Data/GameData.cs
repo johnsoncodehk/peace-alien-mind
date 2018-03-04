@@ -18,8 +18,11 @@ public class GameData {
 		System.IO.File.WriteAllText(filePath, json);
 	}
 	public static IEnumerator Load(string downUrl, System.Action<GameData, int> response) {
-		WWW download;
 		int error = 0; // 成功
+#if UNITY_EDITOR
+		error = -1; // Editor模式不下載
+#else
+		WWW download;
 		if (GetWWW(downUrl, out download)) {
 			yield return download;
 			if (download.error == null) {
@@ -44,6 +47,7 @@ public class GameData {
 		else {
 			error = 1; // Url無效
 		}
+#endif
 
 		// 後備
 		string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "game_data.txt");

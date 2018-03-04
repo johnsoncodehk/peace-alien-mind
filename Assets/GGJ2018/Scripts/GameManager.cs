@@ -35,7 +35,13 @@ public class GameManager : MonoBehaviour {
 
 	// RemoteSettings
 	public string gameDataUrl;
-	public bool debugMode;
+	public bool debugMode {
+#if UNITY_EDITOR
+		get { return true; }
+#else
+		get { return false; }
+#endif
+	}
 
 	// runtime
 	[HideInInspector] public Stage currentStage;
@@ -77,7 +83,7 @@ public class GameManager : MonoBehaviour {
 		}));
 	}
 	void Update() {
-		if (this.debugMode && Input.GetButtonDown("Horizontal") && Input.GetButton("Jump")) {
+		if (this.debugMode && Input.GetButtonDown("Horizontal")) {
 			if (!this.currentStage) return;
 			if (Input.GetAxisRaw("Horizontal") > 0) {
 				this.NextStage(0);
