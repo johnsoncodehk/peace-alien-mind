@@ -24,12 +24,17 @@ public class GameManager : MonoBehaviour {
 	public PostProcessingBehaviour postProcessing;
 	public bool showBlurry;
 	public GameData gameData;
+	public int step;
+	public int score;
+
 	// UI
 	public MainMenu mainMenu;
 	public SettingsPanel settingsPanel;
 	public Button settingsButton, backButton;
-	public int step;
-	public int score;
+
+	// RemoteSettings
+	public string gameDataUrl;
+	public bool debugMode = false;
 
 	// runtime
 	[HideInInspector] public Stage currentStage;
@@ -50,12 +55,14 @@ public class GameManager : MonoBehaviour {
 		});
 		this.backButtonImage = this.backButton.GetComponent<Image>();
 		this.postProcessing.profile = Instantiate(this.postProcessing.profile);
-		StartCoroutine(GameData.Load((gameData) => {
+	}
+	void Start() {
+		StartCoroutine(GameData.Load(this.gameDataUrl, (gameData) => {
 			this.gameData = gameData;
 		}));
 	}
 	void Update() {
-		if (Input.GetButtonDown("Horizontal") && Input.GetButton("Jump")) {
+		if (this.debugMode && Input.GetButtonDown("Horizontal") && Input.GetButton("Jump")) {
 			if (!this.currentStage) return;
 			if (Input.GetAxisRaw("Horizontal") > 0) {
 				this.NextStage(0);

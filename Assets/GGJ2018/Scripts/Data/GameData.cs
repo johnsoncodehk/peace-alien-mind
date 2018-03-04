@@ -17,9 +17,28 @@ public class GameData {
 		Debug.Log("Save Json: " + json);
 		System.IO.File.WriteAllText(filePath, json);
 	}
-	public static IEnumerator Load(System.Action<GameData> response) {
-		string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "game_data.txt");
+	public static IEnumerator Load(string downUrl, System.Action<GameData> response) {
+		WWW download;
+		// Fix Url無效
+		if (GetWWW(downUrl, out download)) {
+			yield return download;
+			// Fix download失敗
+			if (download.error == null) {
+				// Fix download的不是json
+				try {
+					GameData data = JsonUtility.FromJson<GameData>(download.text);
+					// Fix download的json不對
+					if (data.version > 0 && data.levels.Count != 0) {
+						response(data);
+						yield break;
+					};
+				}
+				catch { }
+			}
+		}
 
+		// 後備
+		string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "game_data.txt");
 		string result;
 		if (filePath.Contains("://") || filePath.Contains(":///")) {
 			WWW www = new WWW(filePath);
@@ -30,6 +49,16 @@ public class GameData {
 			result = System.IO.File.ReadAllText(filePath);
 
 		response(JsonUtility.FromJson<GameData>(result));
+	}
+	public static bool GetWWW(string downUrl, out WWW www) {
+		try {
+			www = new WWW(downUrl);
+			return true;
+		}
+		catch {
+			www = null;
+			return false;
+		}
 	}
 }
 

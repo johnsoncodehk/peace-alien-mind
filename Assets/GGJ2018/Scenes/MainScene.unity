@@ -3212,6 +3212,7 @@ MonoBehaviour:
   tilemap: {fileID: 264063561}
   line: {fileID: 1935062431}
   satelites: []
+  state: 0
 --- !u!4 &1039022560
 Transform:
   m_ObjectHideFlags: 0
@@ -7794,12 +7795,14 @@ MonoBehaviour:
   gameData:
     version: 0
     levels: []
+  step: 0
+  score: 0
   mainMenu: {fileID: 545026683}
   settingsPanel: {fileID: 1332832402}
   settingsButton: {fileID: 1145022992}
   backButton: {fileID: 1287646062}
-  step: 0
-  score: 0
+  gameDataUrl: https://johnsoncodehk.github.io/peace-alien/StreamingAssets/game_data.txt
+  debugMode: 1
   currentStage: {fileID: 0}
 --- !u!4 &1355535302
 Transform:
