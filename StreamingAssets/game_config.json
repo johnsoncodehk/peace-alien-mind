@@ -1,0 +1,7 @@
+{
+    "gameDataUpdate": {
+        "enabled": false,
+        "url": "https://johnsoncodehk.github.io/peace-alien/StreamingAssets/game_data.json"
+    },
+    "debugMode": false
+}
