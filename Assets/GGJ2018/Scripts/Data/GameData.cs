@@ -8,8 +8,10 @@ public class GameData {
 	public int version;
 	public List<LevelData> levels = new List<LevelData>();
 
+	public static string fileName = "game_data.json";
+
 	public static void Save(GameData gameData) {
-		string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "game_data.txt");
+		string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, fileName);
 		GameData oldData = JsonUtility.FromJson<GameData>(System.IO.File.ReadAllText(filePath));
 		gameData.version = oldData.version + 1;
 
@@ -17,40 +19,42 @@ public class GameData {
 		Debug.Log("Save Json: " + json);
 		System.IO.File.WriteAllText(filePath, json);
 	}
-	public static IEnumerator Load(string downUrl, System.Action<GameData, int> response) {
+	public static IEnumerator Load(GameConfig.GameDataUpdate updateConfig, System.Action<GameData, int> response) {
 		int error = 0; // 成功
 #if UNITY_EDITOR
 		error = -1; // Editor模式不下載
 #else
-		WWW download;
-		if (GetWWW(downUrl, out download)) {
-			yield return download;
-			if (download.error == null) {
-				try {
-					GameData data = JsonUtility.FromJson<GameData>(download.text);
-					if (data.version > 0 && data.levels.Count != 0) {
-						response(data, error);
-						yield break;
+		if (updateConfig.enabled) {
+			WWW download;
+			if (GetWWW(updateConfig.url, out download)) {
+				yield return download;
+				if (download.error == null) {
+					try {
+						GameData data = JsonUtility.FromJson<GameData>(download.text);
+						if (data.version > 0 && data.levels.Count != 0) {
+							response(data, error);
+							yield break;
+						}
+						else {
+							error = 4; // 不是有效的GameData
+						}
 					}
-					else {
-						error = 4; // 不是有效的GameData
+					catch {
+						error = 3; // Json parse fail
 					}
 				}
-				catch {
-					error = 3; // Json parse fail
+				else {
+					error = 2; // 下載失敗
 				}
 			}
 			else {
-				error = 2; // 下載失敗
+				error = 1; // Url無效
 			}
-		}
-		else {
-			error = 1; // Url無效
 		}
 #endif
 
 		// 後備
-		string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, "game_data.txt");
+		string filePath = System.IO.Path.Combine(Application.streamingAssetsPath, fileName);
 		string result;
 		if (filePath.Contains("://") || filePath.Contains(":///")) {
 			WWW www = new WWW(filePath);

@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour {
 	public Camera mainCamera;
 	public PostProcessingBehaviour postProcessing;
 	public bool showBlurry;
+	public GameConfig gameConfig;
 	public GameData gameData;
 	public int step;
 	public int score;
@@ -32,16 +33,6 @@ public class GameManager : MonoBehaviour {
 	public SettingsPanel settingsPanel;
 	public Button settingsButton, backButton;
 	public GameMessage gameMessage;
-
-	// RemoteSettings
-	public string gameDataUrl;
-	public bool debugMode {
-#if UNITY_EDITOR
-		get { return true; }
-#else
-		get { return false; }
-#endif
-	}
 
 	// runtime
 	[HideInInspector] public Stage currentStage;
@@ -64,26 +55,42 @@ public class GameManager : MonoBehaviour {
 		this.postProcessing.profile = Instantiate(this.postProcessing.profile);
 	}
 	void Start() {
-		this.gameMessage.ShowMessage("Game Data Updating...");
-		StartCoroutine(GameData.Load(this.gameDataUrl, (gameData, errorCode) => {
+		StartCoroutine(GameConfig.Load((gameconfig) => {
+			this.gameConfig = gameconfig;
+		}));
+
+		this.gameMessage.ShowMessage("Downloading...", true);
+		StartCoroutine(GameData.Load(this.gameConfig.gameDataUpdate, (gameData, errorCode) => {
 			this.gameData = gameData;
-			if (errorCode == 0) {
-				this.gameMessage.ShowMessage(
-					"Game Data Update Completed\nData Version: {data_version}"
-					.Replace("{data_version}", this.gameData.version.ToString())
-				);
+			if (this.gameConfig.gameDataUpdate.enabled) {
+				if (errorCode == 0) {
+					this.gameMessage.ShowMessage(
+						"Data Update Completed\nData Version: {data_version}"
+						.Replace("{data_version}", this.gameData.version.ToString())
+					);
+				}
+				else {
+					this.gameMessage.ShowMessage(
+						"Data Update Failed\nError Code: {error_code}\nData Version: {data_version}"
+						.Replace("{error_code}", errorCode.ToString())
+						.Replace("{data_version}", this.gameData.version.ToString())
+					);
+				}
 			}
 			else {
 				this.gameMessage.ShowMessage(
-					"Game Data Update Failed\nError Code: {error_code}\nData Version: {data_version}"
-					.Replace("{error_code}", errorCode.ToString())
+					"Data Version: {data_version}"
 					.Replace("{data_version}", this.gameData.version.ToString())
 				);
 			}
 		}));
+
+		if (this.gameConfig.debugMode) {
+			this.gameMessage.ShowMessage("Debug Mode Enabled");
+		}
 	}
 	void Update() {
-		if (this.debugMode && Input.GetButtonDown("Horizontal")) {
+		if (this.gameConfig.debugMode && Input.GetButtonDown("Horizontal")) {
 			if (!this.currentStage) return;
 			if (Input.GetAxisRaw("Horizontal") > 0) {
 				this.NextStage(0);
@@ -185,6 +192,7 @@ public class GameManager : MonoBehaviour {
 				stageObject.direction = stageObjectData.direction;
 			}
 			showTrans = stage.transform;
+			showTrans.name = stageData.name;
 		}
 		else {
 			if (!isBack) {
@@ -206,6 +214,10 @@ public class GameManager : MonoBehaviour {
 			GameManager.instance.player.energys.show = true;
 			GameManager.instance.player.energys.remain = 10;
 			this.currentStage = showTrans.GetComponent<Stage>();
+			
+			if (this.gameConfig.debugMode) {
+				this.gameMessage.ShowMessage(this.currentStage.name, true);
+			}
 		}
 		if (hideTrans.GetComponent<Stage>()) {
 			Destroy(hideTrans.gameObject);

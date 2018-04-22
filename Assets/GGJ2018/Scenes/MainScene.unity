@@ -776,6 +776,7 @@ MonoBehaviour:
       Culture=neutral, PublicKeyToken=null
   text: {fileID: 146995200}
   lifeTime: 0
+  canSkip: 0
 --- !u!95 &146995203
 Animator:
   serializedVersion: 3
@@ -7924,6 +7925,11 @@ MonoBehaviour:
   mainCamera: {fileID: 965969650}
   postProcessing: {fileID: 965969652}
   showBlurry: 0
+  gameConfig:
+    gameDataUpdate:
+      enabled: 0
+      url: 
+    debugMode: 0
   gameData:
     version: 0
     levels: []
@@ -7934,7 +7940,6 @@ MonoBehaviour:
   settingsButton: {fileID: 1145022992}
   backButton: {fileID: 1287646062}
   gameMessage: {fileID: 146995202}
-  gameDataUrl: https://johnsoncodehk.github.io/peace-alien/StreamingAssets/game_data.txt
   currentStage: {fileID: 0}
 --- !u!4 &1355535302
 Transform:
