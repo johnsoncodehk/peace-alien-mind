@@ -49,8 +49,8 @@ SpriteAtlas:
   - {fileID: 21300026, guid: dd105a39e474c4706aba36b8be4febd9, type: 3}
   - {fileID: 21300046, guid: dd105a39e474c4706aba36b8be4febd9, type: 3}
   - {fileID: 21300020, guid: dd105a39e474c4706aba36b8be4febd9, type: 3}
-  - {fileID: 21300010, guid: dd105a39e474c4706aba36b8be4febd9, type: 3}
   - {fileID: 21300034, guid: dd105a39e474c4706aba36b8be4febd9, type: 3}
+  - {fileID: 21300010, guid: dd105a39e474c4706aba36b8be4febd9, type: 3}
   - {fileID: 21300042, guid: dd105a39e474c4706aba36b8be4febd9, type: 3}
   - {fileID: 21300038, guid: dd105a39e474c4706aba36b8be4febd9, type: 3}
   - {fileID: 21300044, guid: dd105a39e474c4706aba36b8be4febd9, type: 3}
@@ -76,8 +76,8 @@ SpriteAtlas:
   - hips
   - ribbon
   - neck
-  - hair_3
   - sleeve_1_back
+  - hair_3
   - eye_ball_1
   - eye_lash_1
   - eye_ball_2
