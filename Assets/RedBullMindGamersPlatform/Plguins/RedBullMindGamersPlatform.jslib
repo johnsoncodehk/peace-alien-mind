@@ -6,4 +6,8 @@ mergeInto(LibraryManager.library, {
     parent.postMessage(msg, "*");
   },
 
+  IsMobile: function () {
+    return UnityLoader.SystemInfo.mobile;
+  },
+
 });

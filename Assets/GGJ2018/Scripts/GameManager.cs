@@ -55,6 +55,14 @@ public class GameManager : MonoBehaviour {
 		this.postProcessing.profile = Instantiate(this.postProcessing.profile);
 	}
 	void Start() {
+		try {
+			if (RedBullMindGamersPlatform.IsMobile()) {
+				// this.postProcessing.enabled = false;
+				Destroy(this.postProcessing);
+			}
+		}
+		catch { }
+
 		StartCoroutine(GameConfig.Load((gameconfig) => {
 			this.gameConfig = gameconfig;
 		}));
