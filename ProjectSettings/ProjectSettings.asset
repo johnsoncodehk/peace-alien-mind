@@ -126,7 +126,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleVersion: 1.0.8
+  bundleVersion: 1.0.9
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -639,7 +639,7 @@ PlayerSettings:
   facebookSdkVersion: 7.9.4
   apiCompatibilityLevel: 2
   cloudProjectId: 47bfbec0-421c-4a2d-8e01-327879a26080
-  projectName: Peace Alien
+  projectName: 'Peace Alien: Mind'
   organizationId: johnsoncodehk
   cloudEnabled: 0
   enableNativePlatformBackendsForNewInputSystem: 0

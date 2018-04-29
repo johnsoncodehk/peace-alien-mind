@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour {
 	public GameConfig gameConfig;
 	public GameData gameData;
 	public int step;
-	public int score;
+	public float score;
 
 	// UI
 	public MainMenu mainMenu;
@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour {
 		this.backButton.interactable = m_PlayingLevel != null;
 	}
 
-	public void NextStage(int addScore) {
+	public void NextStage(float addScore) {
 		this.score += addScore;
 		StartCoroutine(this.NextStageAsync());
 	}
@@ -204,8 +204,10 @@ public class GameManager : MonoBehaviour {
 		}
 		else {
 			if (!isBack) {
+				int finalScore = Mathf.FloorToInt(Mathf.Clamp(this.score, 0, 100));
+				this.gameMessage.ShowMessage("Score: " + finalScore);
 				try {
-					RedBullMindGamersPlatform.GameOver(this.level, Mathf.Clamp(this.score, 0, 100));
+					RedBullMindGamersPlatform.GameOver(this.level, finalScore);
 				}
 				catch { }
 			}

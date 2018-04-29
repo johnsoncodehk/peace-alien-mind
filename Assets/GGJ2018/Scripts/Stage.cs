@@ -124,7 +124,7 @@ public class Stage : MonoBehaviour {
 		return true;
 	}
 	private IEnumerator WinAction() {
-		int score = Mathf.Clamp(GameManager.instance.player.energys.remain + 1, 0, 10);
+		float score = Mathf.Clamp(5.5f + GameManager.instance.player.energys.remain * 0.5f, 0, 10);
 		foreach (Planet planet in this.m_Planets) {
 			var newLine = Instantiate(this.line);
 			newLine.transform.SetParent(this.transform, false);
@@ -137,5 +137,8 @@ public class Stage : MonoBehaviour {
 
 		yield return new WaitForSeconds(2);
 		GameManager.instance.NextStage(score);
+		if (GameManager.instance.gameConfig.debugMode) {
+			GameManager.instance.gameMessage.ShowMessage("Add Score: " + score);
+		}
 	}
 }
