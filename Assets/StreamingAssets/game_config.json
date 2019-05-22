@@ -1,6 +1,6 @@
 {
     "gameDataUpdate": {
-        "enabled": false,
+        "enabled": true,
         "url": "https://johnsoncodehk.github.io/peace-alien-mind/StreamingAssets/game_data.json"
     },
     "debugMode": false
